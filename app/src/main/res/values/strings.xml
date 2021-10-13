@@ -1,0 +1,41 @@
+<resources>
+    <string name="app_name">Myproject_v1</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <string name="log_in">Log in</string>
+    <string name="card_number">Card number</string>
+    <string name="expire_date">Expire date</string>
+    <string name="cvv">CVV</string>
+    <string name="create_account">Create account</string>
+    <string name="tel">Tel</string>
+    <string name="bank_account">Bank account</string>
+    <string name="address">Address</string>
+    <string name="username">Username</string>
+    <string name="log_out">Log out</string>
+    <string name="textinputEditText">hint</string>
+
+    <string name="dialog_delete_title">Alert</string>
+    <string name="dialog_delete_msg">Do you allow this application access your location information?</string>
+    <string name="Yes">Yes</string>
+    <string name="cancel">No</string>
+
+
+    <string name="map_key" translatable="false">AIzaSyAs33W_lRsI2Y9QVlpbb_T78xfgtRgMEcI</string>
+    <string name="confirm">Confirm</string>
+    <string name="textview1">TextView</string>
+    <string name="textview2">TextView</string>
+    <string name="textview3">TextView</string>
+    <string name="textview4">TextView</string>
+    <string name="current_request">Current request</string>
+    <string name="current_delivery">Current delivery</string>
+
+    <string name="todo">TODO</string>
+    <string name="post_request">Post request</string>
+    <string name="edit_profile">Edit profile</string>
+
+    <string name="contact_number">Contact number</string>
+    <string name="save">Save</string>
+    <string name="request_your_item">Request Your item</string>
+
+
+</resources>

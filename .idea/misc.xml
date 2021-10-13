@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable-v24/bg_round.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable-v24/ic_baseline_person_outline_24.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.12916666666666668" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/bg_round.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_baseline_add_circle.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_baseline_add_circle_24.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_baseline_keyboard_backspace_24.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_baseline_person_outline_24.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/drawable/selector.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_cancel_item_request.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_check_motivation.xml" value="0.4" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_check_profile.xml" value="0.2" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_edit_profile.xml" value="0.2513586956521739" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_history.xml" value="0.2513586956521739" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_main.xml" value="0.176" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_main_page.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_map.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_profile.xml" value="0.4" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_request.xml" value="0.2513586956521739" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_request_your_item.xml" value="0.4" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_shopping_delivery.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_sign_up.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/layout/activity_wrapper.xml" value="0.264" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/menu/menu_navigation.xml" value="0.21510416666666668" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
