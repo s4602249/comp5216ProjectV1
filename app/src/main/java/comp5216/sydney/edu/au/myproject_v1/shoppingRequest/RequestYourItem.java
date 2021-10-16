@@ -27,7 +27,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import comp5216.sydney.edu.au.myproject_v1.History;
 
@@ -38,9 +43,8 @@ import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
 
 import comp5216.sydney.edu.au.myproject_v1.map.MapRequestItem;
-import comp5216.sydney.edu.au.myproject_v1.model.request;
+import comp5216.sydney.edu.au.myproject_v1.model.Request;
 
-import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 
 public class RequestYourItem extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -59,11 +63,13 @@ public class RequestYourItem extends AppCompatActivity {
     Intent intent;
     ImageButton curloc;
     ImageButton back;
-    SessionManager sessionManager;
     String username;
     Button confirm;
     TextView TotalPrice;
     TextView Depsit;
+
+    double lat;
+    double lng;
 
 
     @Override
@@ -141,10 +147,9 @@ public class RequestYourItem extends AppCompatActivity {
                         !price3.getText().toString().equals("") && isNumeric(price1.getText().toString()) && isNumeric(price2.getText().toString())
                         && isNumeric(price3.getText().toString())) {
 
-                    TotalPrice.setText(Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString()) + "");
-                    Depsit.setText((0.4 * (Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString()))) + "");
+                    TotalPrice.setText(String.valueOf(Double.valueOf(price1.getText().toString()) + Double.valueOf(price2.getText().toString())
+                            + Double.valueOf(price3.getText().toString())));
+
 
                 }
             }
@@ -176,10 +181,9 @@ public class RequestYourItem extends AppCompatActivity {
                         !price3.getText().toString().equals("") && isNumeric(price1.getText().toString()) && isNumeric(price2.getText().toString())
                         && isNumeric(price3.getText().toString())) {
 
-                    TotalPrice.setText(Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString()) + "");
-                    Depsit.setText(0.4 * (Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString())) + "");
+                    TotalPrice.setText(String.valueOf(Double.valueOf(price1.getText().toString()) + Double.valueOf(price2.getText().toString())
+                            + Double.valueOf(price3.getText().toString())));
+
                 }
 
 
@@ -213,10 +217,9 @@ public class RequestYourItem extends AppCompatActivity {
                         !price3.getText().toString().equals("") && isNumeric(price1.getText().toString()) && isNumeric(price2.getText().toString())
                         && isNumeric(price3.getText().toString())) {
 
-                    TotalPrice.setText(Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString()) + "");
-                    Depsit.setText(0.4 * (Integer.valueOf(price1.getText().toString()) + Integer.valueOf(price2.getText().toString())
-                            + Integer.valueOf(price3.getText().toString())) + "");
+                    TotalPrice.setText(String.valueOf(Double.valueOf(price1.getText().toString()) + Double.valueOf(price2.getText().toString())
+                            + Double.valueOf(price3.getText().toString())));
+
                 }
 
 
@@ -246,8 +249,8 @@ public class RequestYourItem extends AppCompatActivity {
                             DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
-
                                     intent = new Intent(RequestYourItem.this, MapRequestItem.class);
+                                    intent.putExtra("usernameIntent", username);
                                     intent.putExtra("textTitleIntent", textTitle.getText().toString());
                                     intent.putExtra("itemName1Intent", itemName1.getText().toString());
                                     intent.putExtra("itemName2Intent", itemName2.getText().toString());
@@ -258,7 +261,6 @@ public class RequestYourItem extends AppCompatActivity {
                                     intent.putExtra("addressIntent", address.getText().toString());
                                     intent.putExtra("contactNumIntent", contactNum.getText().toString());
                                     intent.putExtra("timeIntent", time.getText().toString());
-
                                     startActivity(intent);
                                     finish();
                                 }
@@ -280,10 +282,12 @@ public class RequestYourItem extends AppCompatActivity {
             price3.setText(bundle.getString("price3Intent"));
             contactNum.setText(bundle.getString("contactNumIntent"));
             time.setText(bundle.getString("timeIntent"));
+            lat = bundle.getDouble("lat");
+            lng = bundle.getDouble("lng");
+            username = bundle.getString("username");
+            System.out.println("this is user name from map " + username);
         }
-        confirm.setOnClickListener(view -> {
-            createUser();
-        });
+
         // = new SessionManager(getApplicationContext());
         //Get username from session
         //String sEmail = sessionManager.getUsername();
@@ -292,13 +296,20 @@ public class RequestYourItem extends AppCompatActivity {
         if (bundle != null) {
             String data = bundleMainActivity.getString("username");
             username = data;
+            System.out.println("this is username---------" + username);
+            confirm.setOnClickListener(view -> {
 
+                System.out.println("this is username inside---------" + username);
+                createReq();
+            });
         }
+
 
     }
 
     //Create request under user name
-    private void createUser() {
+    private void createReq() {
+
         mAuth = FirebaseAuth.getInstance();
         String TitleSet = textTitle.getText().toString();
         String itemName1Set = itemName1.getText().toString();
@@ -312,18 +323,20 @@ public class RequestYourItem extends AppCompatActivity {
         String addressSet = address.getText().toString();
         String timeSet = time.getText().toString();
 
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("RequestItem");
+        /*DatabaseReference reference = FirebaseDatabase.getInstance().getReference("RequestItem");
 
-        //check if title is in database, title cannot be the same
-        reference.addValueEventListener(new ValueEventListener() {
+       //check if title is in database, title cannot be the same
+         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     //datas.child("email")是一个键值对
-                    if (datas.child("title").getValue().toString().equals(TitleSet)) {
+
+                    if (datas.getKey().equals(username+TitleSet)) {
+
                         startActivity(new Intent(RequestYourItem.this, MainActivity.class));
-                        Toast.makeText(RequestYourItem.this, "Title cannot be the same in database please try again!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(RequestYourItem.this, "You just update your request, since title is the same", Toast.LENGTH_SHORT).show();
                         finish();
                     }
 
@@ -335,7 +348,7 @@ public class RequestYourItem extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
 
         //input validation check
         if (TextUtils.isEmpty(TitleSet)) {
@@ -358,13 +371,13 @@ public class RequestYourItem extends AppCompatActivity {
         } else if (TextUtils.isEmpty(telnumSet)) {
             contactNum.setError("phone number cannot be null");
             contactNum.requestFocus();
-        } else if (!isNumeric(price1Set) || Integer.parseInt(price1Set) < 0) {
+        } else if (!isNumeric(price1Set) || Double.parseDouble(price1Set) < 0) {
             price1.setError("price must be positive number");
             price1.requestFocus();
-        } else if (!isNumeric(price2Set) || Integer.parseInt(price2Set) < 0) {
+        } else if (!isNumeric(price2Set) || Double.parseDouble(price2Set) < 0) {
             price2.setError("price must be positive number");
             price2.requestFocus();
-        } else if (!isNumeric(price3Set) || Integer.parseInt(price3Set) < 0) {
+        } else if (!isNumeric(price3Set) || Double.parseDouble(price3Set) < 0) {
             price3.setError("price must be positive number");
             price3.requestFocus();
         } else {
@@ -378,28 +391,75 @@ public class RequestYourItem extends AppCompatActivity {
             String addressUpload = address.getText().toString();
             String contactNumUpload = contactNum.getText().toString();
             String timeUpload = time.getText().toString();
+            // String dtStart = "2010-10-15T09:27:37Z";
 
-            reqRef = FirebaseDatabase.getInstance().getReference().child("RequestItem").child(username + textTitleUpload);
-            request request = new request(username, textTitleUpload, itemName1Upload, itemName2Upload, itemName3Upload,
-                    price1Upload, price2Upload, price3Upload, timeUpload, addressUpload, contactNumUpload, "Wating");
-            reqRef.setValue(request);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 
-            startActivity(new Intent(RequestYourItem.this, MainActivity.class));
-            Toast.makeText(RequestYourItem.this, "You have already make a request!", Toast.LENGTH_LONG).show();
-            finish();
+            if(!isValidDate(timeUpload)){
+                Toast.makeText(RequestYourItem.this,
+                        "Must follow the date format", Toast.LENGTH_SHORT).show();
+            }
+            try {
+                Date dueTime = format.parse(timeUpload);
+                System.out.println(dueTime);
+
+                Date createTime = new Date();
+                Date nowTime = new Date();
+                //System.out.println(dateFormat.format(date));
+                /*if(!timeUpload.equals("yyyy-MM-dd HH:mm")){
+                    Toast.makeText(RequestYourItem.this,
+                            "Must follow the date format", Toast.LENGTH_SHORT).show();
+                }*/
+
+
+
+                reqRef = FirebaseDatabase.getInstance().getReference().child("RequestItem").child(username + textTitleUpload);
+                String status="";
+                if(dueTime.getTime()<nowTime.getTime()){ //less than now
+                    status="Overdue";
+                }
+                else{
+                    status="Posted";
+                }
+                Request request = new Request(textTitleUpload, username, "", addressUpload,
+                        lat, lng, createTime.getTime(), dueTime.getTime(), contactNumUpload,
+                        "", itemName1Upload, itemName2Upload,
+                        itemName3Upload, price1Upload, price2Upload, price3Upload,
+                        status, (Double.parseDouble(price1Upload) + Double.parseDouble(price2Upload) + Double.parseDouble(price3Upload) + "")
+                );
+
+           /* Request request = new Request(username, textTitleUpload, itemName1Upload, itemName2Upload, itemName3Upload,
+                    price1Upload, price2Upload, price3Upload, timeUpload, addressUpload, contactNumUpload, "Wating");*/
+                reqRef.setValue(request);
+
+                startActivity(new Intent(RequestYourItem.this, MainActivity.class));
+                Toast.makeText(RequestYourItem.this, "Data changed", Toast.LENGTH_SHORT).show();
+                finish();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
     }
 
     //check the num if it is integer
     public static boolean isNumeric(String str) {
-        for (int i = 0; i < str.length(); i++) {
-            System.out.println(str.charAt(i));
-            if (!Character.isDigit(str.charAt(i))) {
-                return false;
-            }
+        Pattern pattern = Pattern.compile("[0-9]*\\.?[0-9]+");
+        Matcher isNum = pattern.matcher(str);
+        if (!isNum.matches()) {
+            return false;
+        }
+        return true;
+
+    }
+    public static boolean isValidDate(String inDate) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(inDate.trim());
+        } catch (ParseException pe) {
+            return false;
         }
         return true;
     }
-
 }

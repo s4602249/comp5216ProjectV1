@@ -27,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import comp5216.sydney.edu.au.myproject_v1.map.Map;
 import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
@@ -44,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
     TextView reqNameView;
     TextView reqTitleView;
 
-
-
     String address;
     String cardnum;
     String cvv;
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,7 +150,6 @@ public class MainActivity extends AppCompatActivity {
                                 finish();
                                 break;
                             }
-
                         }
                     }
                 }
@@ -168,13 +166,10 @@ public class MainActivity extends AppCompatActivity {
             finish();
         });
 
-
         //call Listview
         setupListViewListener();
 
-
     }
-
 
     @Override
     protected void onStart() {
@@ -205,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         expdata = datas.child("expiredate").getValue().toString();
                         password = datas.child("password").getValue().toString();
                         point = Integer.parseInt(datas.child("point").getValue().toString());
-                        tel = datas.child("tel").getValue().toString();
+                        tel = datas.child("phoneNumber").getValue().toString();
                         textView1.setText(username);
                         if (point <= 10) {
                             textView2.setText("Level 1");
@@ -216,10 +211,10 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             textView2.setText("Level 4");
                         }
-
+                        ReadReq();
                     }
                 }
-                ReadReq();
+
 
             }
 
@@ -228,11 +223,11 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
     }
 
     // read request information from database
     public void ReadReq() {
-
 
         // Create an ArrayList of String
         items = new ArrayList<String>();
@@ -254,13 +249,9 @@ public class MainActivity extends AppCompatActivity {
 
                         // Connect the listView and the adapter
                         listView.setAdapter(itemsAdapter);
-
                     }
-
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

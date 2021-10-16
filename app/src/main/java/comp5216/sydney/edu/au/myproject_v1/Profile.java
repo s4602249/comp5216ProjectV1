@@ -144,7 +144,7 @@ public class Profile extends AppCompatActivity {
                         expdata = datas.child("expiredate").getValue().toString();
                         password = datas.child("password").getValue().toString();
                         point = Integer.parseInt(datas.child("point").getValue().toString());
-                        tel = datas.child("tel").getValue().toString();
+                        tel = datas.child("phoneNumber").getValue().toString();
                         System.out.println("------------tel" + tel);
                         System.out.println("------------username" + username);
                         textView1.setText(username);

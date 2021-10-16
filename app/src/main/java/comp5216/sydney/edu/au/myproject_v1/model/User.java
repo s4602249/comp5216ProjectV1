@@ -1,32 +1,42 @@
 package comp5216.sydney.edu.au.myproject_v1.model;
 
-public class user {
+import java.io.Serializable;
 
-    public String username;
-    public String email;
-    public String password;
-    public String tel;
-    public String address;
-    public String cardnumber;
-    public String expiredate;
-    public String cvv;
-    public int point;
+public class User implements Serializable {
 
+    private String username;
+    private String email;
+    private String password;
+    private String phoneNumber;
+    private String address;
+    private String cardnumber;
+    private String expiredate;
+    private String cvv;
+    private int point;
+    private double lat;
+    private double lng;
 
-    public user(String username, String email, String password, String tel, String address, String cardnumber,
-                String expiredate, String cvv) {
+    public User() {
+    }
+
+    public User(String username, String email, String password, String phoneNumber, String address, String cardnumber,
+                String expiredate, String cvv,double lat,double lng) {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.tel = tel;
+        this.phoneNumber = phoneNumber;
         this.address = address;
         this.cardnumber = cardnumber;
         this.expiredate = expiredate;
         this.cvv = cvv;
         this.point = 0;
+        this.lat=lat;
+        this.lng=lng;
     }
 
-    public String getUsername() { return username; }
+    public String getUsername() {
+        return username;
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -48,12 +58,28 @@ public class user {
         this.password = password;
     }
 
-    public String getTel() {
-        return tel;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 
     public String getAddress() {
@@ -88,8 +114,12 @@ public class user {
         this.cvv = cvv;
     }
 
-    public int getPoint() { return point; }
+    public int getPoint() {
+        return point;
+    }
 
-    public void setPoint(int point) { this.point = point; }
+    public void setPoint(int point) {
+        this.point = point;
+    }
 
 }

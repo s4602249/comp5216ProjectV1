@@ -21,6 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import comp5216.sydney.edu.au.myproject_v1.History;
 import comp5216.sydney.edu.au.myproject_v1.MainActivity;
 import comp5216.sydney.edu.au.myproject_v1.Profile;
@@ -145,18 +150,25 @@ public class CancelYourItem extends AppCompatActivity {
                     //datas.child("email")是一个键值对
                     if (datas.child("title").getValue().toString().equals(TitlePassHere)){
                         title.setText(datas.child("title").getValue().toString());
-                        itemName1.setText(datas.child("item1").getValue().toString());
-                        itemName2.setText(datas.child("item2").getValue().toString());
-                        itemName3.setText(datas.child("item3").getValue().toString());
+                        itemName1.setText(datas.child("item1Description1").getValue().toString());
+                        itemName2.setText(datas.child("item1Description2").getValue().toString());
+                        itemName3.setText(datas.child("item1Description3").getValue().toString());
                         price1.setText(datas.child("price1").getValue().toString());
                         price2.setText(datas.child("price2").getValue().toString());
                         price3.setText(datas.child("price3").getValue().toString());
-                        TotalPrice.setText(Integer.valueOf(datas.child("price1").getValue().toString())+
-                                Integer.valueOf(datas.child("price2").getValue().toString())+
-                                Integer.valueOf(datas.child("price3").getValue().toString())+"");
-                        ArrTime.setText(datas.child("arrTime").getValue().toString());
-                        Address.setText(datas.child("address").getValue().toString());
-                        ConNum.setText(datas.child("contactNum").getValue().toString());
+                        TotalPrice.setText(datas.child("totalPrice").getValue().toString());
+
+                       /* SimpleDateFormat format = new SimpleDateFormat();
+                        Date dueTime = null;
+                        try {
+                            dueTime = format.parse(datas.child("dueTime").getValue().toString());
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }*/
+
+                        ArrTime.setText(datas.child("address").getValue().toString());
+                        Address.setText(datas.child("dueTime").getValue().toString());
+                        ConNum.setText(datas.child("creatorPhoneNumber").getValue().toString());
                         Status.setText(datas.child("status").getValue().toString());
                         break;
                     }

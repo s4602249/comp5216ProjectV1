@@ -22,7 +22,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import comp5216.sydney.edu.au.myproject_v1.map.Map;
-import comp5216.sydney.edu.au.myproject_v1.model.user;
+import comp5216.sydney.edu.au.myproject_v1.model.User;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -44,7 +44,8 @@ public class RegisterActivity extends AppCompatActivity {
     String Address;
     ImageButton curloc;
     Intent intent;
-
+    double lat;
+    double lng;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
@@ -78,6 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
             CardInput.setText(bundle.getString("CardIntent"));
             expireInput.setText(bundle.getString("expIntent"));
             cvvInput.setText(bundle.getString("CvvIntent"));
+            lat=bundle.getDouble("lat");
+            lng=bundle.getDouble("lng");
         }
 
 
@@ -98,7 +101,6 @@ public class RegisterActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.Yes, new
                             DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
 
                                     intent = new Intent(RegisterActivity.this, Map.class);
                                     intent.putExtra("emailIntent", etRegEmail.getText().toString());
@@ -174,7 +176,8 @@ public class RegisterActivity extends AppCompatActivity {
                         String expire1 = expireInput.getText().toString();
                         String cvv1 = cvvInput.getText().toString();
 
-                        user user = new user(name1, email1, password1, tel1, address1, card1, expire1, cvv1);
+                        User user = new User( name1,  email1,  password1,  tel1,  address1,  card1,
+                                expire1,  cvv1, lat, lng) ;
                         userRef.setValue(user);
                        // DatabaseReference databaseReference = userRef.child("users");
                        // HashMap<String, user> users = new HashMap<>();

@@ -35,7 +35,8 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
     Button button;
     FragmentContainerView gMap;
     String location;
-
+    double lat;
+    double lng;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,6 +72,8 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
                 intent1.putExtra("CardIntent", CardIntent);
                 intent1.putExtra("expIntent", expIntent);
                 intent1.putExtra("CvvIntent", CvvIntent);
+                intent1.putExtra("lat",lat);
+                intent1.putExtra("lng",lng);
                 startActivity(intent1);
                 finish();
 
@@ -113,6 +116,8 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
                                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                                         map.addMarker(new MarkerOptions().position(latLng).title(location));
                                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                                        lat=address.getLatitude();
+                                        lng=address.getLongitude();
                                     } catch (IndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     } catch (IOException e) {

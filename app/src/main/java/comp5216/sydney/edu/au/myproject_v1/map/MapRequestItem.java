@@ -36,7 +36,8 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
     Button button;
     FragmentContainerView gMap;
     String location;
-
+    double lat;
+    double lng;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
         String addressIntent = bundle.getString("addressIntent");
         String contactNumIntent = bundle.getString("contactNumIntent");
         String timeIntent = bundle.getString("timeIntent");
+        String username=bundle.getString("usernameIntent");
 
 
         button.setOnClickListener(view -> {
@@ -77,6 +79,9 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
                 intent1.putExtra("addressIntent", addressIntent);
                 intent1.putExtra("contactNumIntent", contactNumIntent);
                 intent1.putExtra("timeIntent", timeIntent);
+                intent1.putExtra("lat",lat);
+                intent1.putExtra("lng",lng);
+                intent1.putExtra("username",username);
                 startActivity(intent1);
                 finish();
 
@@ -119,8 +124,9 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
                                         Address address = addressList.get(0);
                                         LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                                         map.addMarker(new MarkerOptions().position(latLng).title(location));
-
                                         map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                                        lat=address.getLatitude();
+                                        lng=address.getLongitude();
                                     } catch (IndexOutOfBoundsException e) {
                                         e.printStackTrace();
                                     } catch (IOException e) {

@@ -56,6 +56,8 @@ public class EditProfile extends AppCompatActivity {
 
     ImageButton curloc;
     Intent intent;
+    double lat;
+    double lng;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +93,8 @@ public class EditProfile extends AppCompatActivity {
             text6.setText(bundle.getString("CardIntent"));
             text7.setText(bundle.getString("expIntent"));
             text8.setText(bundle.getString("CvvIntent"));
+            lat=bundle.getDouble("lat");
+            lng=bundle.getDouble("lng");
         }
 
         btnConfirm.setOnClickListener(view -> {
@@ -102,6 +106,8 @@ public class EditProfile extends AppCompatActivity {
                 reference.child(username).child("cardnumber").setValue(text6.getText().toString());
                 reference.child(username).child("cvv").setValue(text8.getText().toString());
                 reference.child(username).child("expiredate").setValue(text7.getText().toString());
+                reference.child(username).child("lat").setValue(lat);
+                reference.child(username).child("lng").setValue(lng);
                 startActivity(new Intent(EditProfile.this, Profile.class));
                 Toast.makeText(EditProfile.this, "You have successfully edited your profile!", Toast.LENGTH_SHORT).show();
                 finish();
@@ -260,7 +266,7 @@ public class EditProfile extends AppCompatActivity {
                         expdata = datas.child("expiredate").getValue().toString();
                         password = datas.child("password").getValue().toString();
                         point = Integer.parseInt(datas.child("point").getValue().toString());
-                        tel = datas.child("tel").getValue().toString();
+                        tel = datas.child("phoneNumber").getValue().toString();
                     }
                 }
             }
