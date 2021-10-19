@@ -51,6 +51,7 @@
         <activity android:name=".profile.Motivation" />
         <activity android:name=".shoppingRequest.RequestYourItem" />
         <activity android:name=".shoppingRequest.CancelYourItem" />
+        <activity android:name=".shoppingRequest.AcceptRequestActivity" />
 
     </application>
 
