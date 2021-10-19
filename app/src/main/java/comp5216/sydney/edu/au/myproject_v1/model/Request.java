@@ -13,10 +13,10 @@ public class Request implements Serializable {
     private long createTime;
     private long dueTime;
     private String creatorPhoneNumber;
-    private String acceptorPhoneNUmber;
-    private String item1Description1;
-    private String item1Description2;
-    private String item1Description3;
+    private String acceptorPhoneNumber;
+    private String itemDescription1;
+    private String itemDescription2;
+    private String itemDescription3;
     private String price1;
     private String price2;
     private String price3;
@@ -26,11 +26,9 @@ public class Request implements Serializable {
     public Request() {
     }
 
-    public Request(String title, String creatorName, String acceptorName, String address,
-                   double lat, double lng, long createTime, long dueTime, String creatorPhoneNumber,
-                   String acceptorPhoneNUmber, String item1Description1, String item1Description2,
-                   String item1Description3, String price1, String price2, String price3,
-                   String status, String totalPrice) {
+    public Request(String title, String creatorName, String acceptorName, String address, double lat,
+                   double lng, long createTime, long dueTime, String creatorPhoneNumber, String acceptorPhoneNumber, String itemDescription1, String itemDescription2, String itemDescription3,
+                   String price1, String price2, String price3, String status, String totalPrice) {
         this.title = title;
         this.creatorName = creatorName;
         this.acceptorName = acceptorName;
@@ -40,10 +38,10 @@ public class Request implements Serializable {
         this.createTime = createTime;
         this.dueTime = dueTime;
         this.creatorPhoneNumber = creatorPhoneNumber;
-        this.acceptorPhoneNUmber = acceptorPhoneNUmber;
-        this.item1Description1 = item1Description1;
-        this.item1Description2 = item1Description2;
-        this.item1Description3 = item1Description3;
+        this.acceptorPhoneNumber = acceptorPhoneNumber;
+        this.itemDescription1 = itemDescription1;
+        this.itemDescription2 = itemDescription2;
+        this.itemDescription3 = itemDescription3;
         this.price1 = price1;
         this.price2 = price2;
         this.price3 = price3;
@@ -123,36 +121,36 @@ public class Request implements Serializable {
         this.creatorPhoneNumber = creatorPhoneNumber;
     }
 
-    public String getAcceptorPhoneNUmber() {
-        return acceptorPhoneNUmber;
+    public String getAcceptorPhoneNumber() {
+        return acceptorPhoneNumber;
     }
 
-    public void setAcceptorPhoneNUmber(String acceptorPhoneNUmber) {
-        this.acceptorPhoneNUmber = acceptorPhoneNUmber;
+    public void setAcceptorPhoneNumber(String acceptorPhoneNumber) {
+        this.acceptorPhoneNumber = acceptorPhoneNumber;
     }
 
-    public String getItem1Description1() {
-        return item1Description1;
+    public String getItemDescription1() {
+        return itemDescription1;
     }
 
-    public void setItem1Description1(String item1Description1) {
-        this.item1Description1 = item1Description1;
+    public void setItemDescription1(String itemDescription1) {
+        this.itemDescription1 = itemDescription1;
     }
 
-    public String getItem1Description2() {
-        return item1Description2;
+    public String getItemDescription2() {
+        return itemDescription2;
     }
 
-    public void setItem1Description2(String item1Description2) {
-        this.item1Description2 = item1Description2;
+    public void setItemDescription2(String itemDescription2) {
+        this.itemDescription2 = itemDescription2;
     }
 
-    public String getItem1Description3() {
-        return item1Description3;
+    public String getItemDescription3() {
+        return itemDescription3;
     }
 
-    public void setItem1Description3(String item1Description3) {
-        this.item1Description3 = item1Description3;
+    public void setItemDescription3(String itemDescription3) {
+        this.itemDescription3 = itemDescription3;
     }
 
     public String getPrice1() {
@@ -178,7 +176,6 @@ public class Request implements Serializable {
     public void setPrice3(String price3) {
         this.price3 = price3;
     }
-
 
     public String getStatus() {
         return status;
@@ -208,10 +205,10 @@ public class Request implements Serializable {
                 ", createTime=" + createTime +
                 ", dueTime=" + dueTime +
                 ", creatorPhoneNumber='" + creatorPhoneNumber + '\'' +
-                ", acceptorPhoneNUmber='" + acceptorPhoneNUmber + '\'' +
-                ", item1Description1='" + item1Description1 + '\'' +
-                ", item1Description2='" + item1Description2 + '\'' +
-                ", item1Description3='" + item1Description3 + '\'' +
+                ", acceptorPhoneNumber='" + acceptorPhoneNumber + '\'' +
+                ", itemDescription1='" + itemDescription1 + '\'' +
+                ", itemDescription2='" + itemDescription2 + '\'' +
+                ", itemDescription3='" + itemDescription3 + '\'' +
                 ", price1='" + price1 + '\'' +
                 ", price2='" + price2 + '\'' +
                 ", price3='" + price3 + '\'' +
@@ -220,3 +217,4 @@ public class Request implements Serializable {
                 '}';
     }
 }
+
