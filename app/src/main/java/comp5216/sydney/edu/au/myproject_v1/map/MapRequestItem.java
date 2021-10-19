@@ -38,6 +38,7 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
     String location;
     double lat;
     double lng;
+    private Thread thread = null;//check the thread
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,8 +94,9 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
         });
 
         mapFragment =(SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-        doStuff();
         mapFragment.getMapAsync(this);
+
+        doStuff();
     }
 
     @Override
@@ -144,11 +146,8 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
                     }
                 });
 
-
             }
         }).start();
-
-
 
     }
 

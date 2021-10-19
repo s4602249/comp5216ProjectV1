@@ -166,8 +166,16 @@ public class CancelYourItem extends AppCompatActivity {
                             e.printStackTrace();
                         }*/
 
-                        ArrTime.setText(datas.child("address").getValue().toString());
-                        Address.setText(datas.child("dueTime").getValue().toString());
+
+
+                        long time = Long.parseLong(datas.child("dueTime").getValue().toString());
+
+
+                        Date date = new Date(time);
+                        DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+
+                        ArrTime.setText(formatter.format(date).toString());
+                        Address.setText(datas.child("address").getValue().toString());
                         ConNum.setText(datas.child("creatorPhoneNumber").getValue().toString());
                         Status.setText(datas.child("status").getValue().toString());
                         break;
