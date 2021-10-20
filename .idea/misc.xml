@@ -32,6 +32,8 @@
         <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/menu/menu_navigation.xml" value="0.21510416666666668" />
         <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_accept_request.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_confirm_request.xml" value="0.125" />
       </map>
     </option>
   </component>

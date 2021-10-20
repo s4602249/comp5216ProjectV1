@@ -150,9 +150,9 @@ public class CancelYourItem extends AppCompatActivity {
                     //datas.child("email")是一个键值对
                     if (datas.child("title").getValue().toString().equals(TitlePassHere)){
                         title.setText(datas.child("title").getValue().toString());
-                        itemName1.setText(datas.child("item1Description1").getValue().toString());
-                        itemName2.setText(datas.child("item1Description2").getValue().toString());
-                        itemName3.setText(datas.child("item1Description3").getValue().toString());
+                        itemName1.setText(datas.child("itemDescription1").getValue().toString());
+                        itemName2.setText(datas.child("itemDescription2").getValue().toString());
+                        itemName3.setText(datas.child("itemDescription3").getValue().toString());
                         price1.setText(datas.child("price1").getValue().toString());
                         price2.setText(datas.child("price2").getValue().toString());
                         price3.setText(datas.child("price3").getValue().toString());

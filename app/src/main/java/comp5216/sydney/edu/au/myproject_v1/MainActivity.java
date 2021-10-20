@@ -17,6 +17,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,15 +27,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
 import comp5216.sydney.edu.au.myproject_v1.map.Map;
+import comp5216.sydney.edu.au.myproject_v1.model.DeviceToken;
 import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.CancelYourItem;
+import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.ConfirmRequestActivity;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.RequestYourItem;
 
 public class MainActivity extends AppCompatActivity {
@@ -61,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,6 +208,10 @@ public class MainActivity extends AppCompatActivity {
                         point = Integer.parseInt(datas.child("point").getValue().toString());
                         tel = datas.child("phoneNumber").getValue().toString();
                         textView1.setText(username);
+
+                        //save user token
+                        saveToken();
+
                         if (point <= 10) {
                             textView2.setText("Level 1");
                         } else if (point < 21) {
@@ -242,13 +252,17 @@ public class MainActivity extends AppCompatActivity {
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     //datas.child("email")是一个键值对
                     if (datas.getKey().startsWith(username)) { //changed to startswith
-                        items.add(datas.child("title").getValue().toString());
-                        reqNameView.setText("Request Title");
 
-                        itemsAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, items);
+                        if (!datas.child("status").getValue().toString().equals("Completed")) {
 
-                        // Connect the listView and the adapter
-                        listView.setAdapter(itemsAdapter);
+                            items.add(datas.child("title").getValue().toString());
+                            reqNameView.setText("Request Title");
+
+                            itemsAdapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, items);
+
+                            // Connect the listView and the adapter
+                            listView.setAdapter(itemsAdapter);
+                        }
                     }
                 }
             }
@@ -272,15 +286,56 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long
                     id) {
-                //Go to cancel request page
+                String titleName = username+items.get(position);
+                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("RequestItem").child(titleName).child("status");
+                reference1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String statusCheck = snapshot.getValue(String.class);
+                        if(statusCheck.equals("Posted")){
+                            Intent intent = new Intent(MainActivity.this, CancelYourItem.class);
+                            intent.putExtra("username", username);
+                            intent.putExtra("title", items.get(position));
+                            startActivity(intent);
+                            finish();
+                        } else if (statusCheck.equals("Accepted")){
+                            Intent intent = new Intent(MainActivity.this, ConfirmRequestActivity.class);
+                            intent.putExtra("username", username);
+                            intent.putExtra("title", items.get(position));
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
 
-                Intent intent = new Intent(MainActivity.this, CancelYourItem.class);
-                intent.putExtra("username", username);
-                intent.putExtra("title", items.get(position));
-                startActivity(intent);
-                finish();
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
+                    }
+                });
             }
         });
+    }
+
+    //save user token
+    private void saveToken(){
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        DatabaseReference reqRef = FirebaseDatabase.getInstance().getReference().child("TokenDevice").child(username);
+                        DeviceToken userDevice = new DeviceToken(token, username);
+                        reqRef.setValue(userDevice);
+
+                        // Log and toast
+
+                    }
+                });
     }
 }
