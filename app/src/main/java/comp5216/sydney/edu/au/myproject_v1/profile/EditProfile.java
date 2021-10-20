@@ -97,10 +97,8 @@ public class EditProfile extends AppCompatActivity {
             lng=bundle.getDouble("lng");
         }
 
+        setInfoValue();
         btnConfirm.setOnClickListener(view -> {
-
-            if (ifTelChanged() != false && ifAddressChanged() != false && ifCardNumChanged()!=false && ifExpireChanged() != false
-                    &&ifCvvChanged() != false)  {
                 reference.child(username).child("address").setValue(text5.getText().toString());
                 reference.child(username).child("tel").setValue(text4.getText().toString());
                 reference.child(username).child("cardnumber").setValue(text6.getText().toString());
@@ -111,10 +109,6 @@ public class EditProfile extends AppCompatActivity {
                 startActivity(new Intent(EditProfile.this, Profile.class));
                 Toast.makeText(EditProfile.this, "You have successfully edited your profile!", Toast.LENGTH_SHORT).show();
                 finish();
-            } else {
-                Toast.makeText(EditProfile.this, "Edit failed, try again!", Toast.LENGTH_SHORT).show();
-            }
-
 
         });
 
@@ -183,7 +177,7 @@ public class EditProfile extends AppCompatActivity {
         });
     }
 
-
+/*
     public boolean ifAddressChanged() {
         if (TextUtils.isEmpty(text5.getText().toString())) {
             text5.setError("Address cannot be null");
@@ -209,6 +203,7 @@ public class EditProfile extends AppCompatActivity {
             return false;
         }
     }
+
 
     public boolean ifCardNumChanged() {
         if (TextUtils.isEmpty(text6.getText().toString())) {
@@ -248,6 +243,7 @@ public class EditProfile extends AppCompatActivity {
             return false;
         }
     }
+*/
 
     public void Read(String data) {
         reference = FirebaseDatabase.getInstance().getReference("Users");
@@ -269,6 +265,33 @@ public class EditProfile extends AppCompatActivity {
                         tel = datas.child("phoneNumber").getValue().toString();
                     }
                 }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    //autofill information
+    private void setInfoValue(){
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users");
+
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot datas : snapshot.getChildren()) {
+                    //datas.child("email")是一个键值对
+                    if (datas.child("email").getValue().toString().equals(sessionManager.getUsername())) {
+                        text4.setText(datas.child("phoneNumber").getValue().toString());
+                        //text5.setText(datas.child("address").getValue().toString());
+                        text6.setText(datas.child("cardnumber").getValue().toString());
+                        text6.setText(datas.child("expiredate").getValue().toString());
+                        text6.setText(datas.child("cvv").getValue().toString());
+                    }
+                }
+
             }
 
             @Override

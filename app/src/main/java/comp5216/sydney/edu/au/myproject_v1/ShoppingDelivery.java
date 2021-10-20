@@ -145,8 +145,8 @@ public class ShoppingDelivery extends AppCompatActivity implements GoogleMap.OnM
                                     request.setCreatorName(String.valueOf(m.get("creatorName")));
                                     request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
                                     request.setAddress(String.valueOf(m.get("address")));
-                                    request.setLat((double) m.get("lat"));
-                                    request.setLng((double) m.get("lng"));
+                                    request.setLat(new Double((m.get("lat")).toString()));
+                                    request.setLng(new Double((m.get("lng")).toString()));
                                     request.setCreateTime((long) m.get("createTime"));
                                     request.setDueTime((long) m.get("dueTime"));
                                     request.setCreatorPhoneNumber(String.valueOf(m.get("creatorPhoneNumber")));

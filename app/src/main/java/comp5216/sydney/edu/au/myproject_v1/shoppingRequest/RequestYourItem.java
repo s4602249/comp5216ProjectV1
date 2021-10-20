@@ -1,16 +1,22 @@
 package comp5216.sydney.edu.au.myproject_v1.shoppingRequest;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -114,12 +121,15 @@ public class RequestYourItem extends AppCompatActivity {
         Depsit = findViewById(R.id.timeCan);
         //add textChangedListener
         back = findViewById(R.id.back1);
+
         // go back to main page
         back.setOnClickListener(view -> {
             Intent intent = new Intent(RequestYourItem.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
+
+
         price1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -228,7 +238,17 @@ public class RequestYourItem extends AppCompatActivity {
 
         address = findViewById(R.id.Text8);
         contactNum = findViewById(R.id.Text9);
+
         time = findViewById(R.id.Text10);
+        time.setInputType(InputType.TYPE_NULL);
+
+        time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDateTimeDialog(time);
+            }
+        });
+
         curloc = findViewById(R.id.findLocationn3);
         confirm = findViewById(R.id.cancelReq);
 
@@ -304,6 +324,7 @@ public class RequestYourItem extends AppCompatActivity {
             });
         }
 
+        setInfo();
 
     }
 
@@ -393,13 +414,16 @@ public class RequestYourItem extends AppCompatActivity {
             String timeUpload = time.getText().toString();
             // String dtStart = "2010-10-15T09:27:37Z";
 
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd HH:mm");
 
-            if(!isValidDate(timeUpload)){
-                Toast.makeText(RequestYourItem.this,
-                        "Must follow the date format", Toast.LENGTH_SHORT).show();
-            }
+//            if(!isValidDate(timeUpload)){
+//                Toast.makeText(RequestYourItem.this,
+//                        "Must follow the date format", Toast.LENGTH_SHORT).show();
+//            }
+
             try {
+                System.out.println(timeUpload);
+                System.out.println("hehe");
                 Date dueTime = format.parse(timeUpload);
                 System.out.println(dueTime);
 
@@ -452,14 +476,72 @@ public class RequestYourItem extends AppCompatActivity {
         return true;
 
     }
-    public static boolean isValidDate(String inDate) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        dateFormat.setLenient(false);
-        try {
-            dateFormat.parse(inDate.trim());
-        } catch (ParseException pe) {
-            return false;
-        }
-        return true;
+
+//    public static boolean isValidDate(String inDate) {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+//        dateFormat.setLenient(false);
+//        try {
+//            dateFormat.parse(inDate.trim());
+//        } catch (ParseException pe) {
+//            return false;
+//        }
+//        return true;
+//    }
+
+    private void showDateTimeDialog(final EditText date_time_in) {
+        final Calendar calendar=Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.MONTH,month);
+                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+
+                TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
+                        calendar.set(Calendar.MINUTE,minute);
+
+                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yy-MM-dd HH:mm");
+                        //save date string in to @deadline, which used for sending back to the main activity
+                        String deadline = simpleDateFormat.format(calendar.getTime());
+                        time.setText(deadline);
+
+                        System.out.println(deadline);
+                        date_time_in.setText(simpleDateFormat.format(calendar.getTime()));
+                    }
+                };
+
+                new TimePickerDialog(RequestYourItem.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+            }
+        };
+
+        new DatePickerDialog(RequestYourItem.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+
+    }
+
+    private void setInfo(){
+        DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users");
+        reference1.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot datas : snapshot.getChildren()) {
+                    System.out.println(datas.child("username").getValue().toString());
+                    if(datas.child("username").getValue().toString().equals(username)){
+                        //datas.child("email")是一个键值对
+                        System.out.println("????");
+                        System.out.println(datas.child("phoneNumber").getValue().toString());
+                        contactNum.setText(datas.child("phoneNumber").getValue().toString());
+                    }
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

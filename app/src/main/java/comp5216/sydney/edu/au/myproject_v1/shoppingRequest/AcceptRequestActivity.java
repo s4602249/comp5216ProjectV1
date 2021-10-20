@@ -7,11 +7,16 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
+import com.google.firebase.database.ValueEventListener;
 
 
 import java.text.DateFormat;
@@ -24,6 +29,7 @@ import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
 import comp5216.sydney.edu.au.myproject_v1.model.Request;
 import comp5216.sydney.edu.au.myproject_v1.model.User;
+import comp5216.sydney.edu.au.myproject_v1.notificationPackage.NotificationSender;
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 
 public class AcceptRequestActivity extends AppCompatActivity {
@@ -134,6 +140,7 @@ public class AcceptRequestActivity extends AppCompatActivity {
                 updates.put(key, request);
                 db.updateChildren(updates);
 
+                sendNotification();
                 Intent intent = new Intent(AcceptRequestActivity.this, ShoppingDelivery.class);
                 startActivity(intent);
             }
@@ -149,5 +156,27 @@ public class AcceptRequestActivity extends AppCompatActivity {
         user.setLat(-33.8692);
         user.setLng(151.2092);
         user.setPhoneNumber("13000000000");
+    }
+
+    private void sendNotification(){
+        String titleFullId = request.getCreatorName() + request.getTitle();
+        DatabaseReference requestInfo = FirebaseDatabase.getInstance().getReference("TokenDevice").child(request.getCreatorName()).child("token");
+        requestInfo.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String t =snapshot.getValue(String.class);
+                NotificationSender notificationsSender = new NotificationSender(
+                        t,
+                        "Updated on your oder!","Your order is accepted by "+ user.getUsername(),
+                        getApplicationContext(), AcceptRequestActivity.this);
+                System.out.println("hehe");
+                notificationsSender.sendNotification();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }
