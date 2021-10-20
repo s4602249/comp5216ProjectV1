@@ -2,6 +2,7 @@ package comp5216.sydney.edu.au.myproject_v1.shoppingRequest;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +26,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.myproject_v1.History;
 import comp5216.sydney.edu.au.myproject_v1.MainActivity;
+import comp5216.sydney.edu.au.myproject_v1.Profile;
 import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
 import comp5216.sydney.edu.au.myproject_v1.model.Request;
@@ -62,9 +66,36 @@ public class ConfirmRequestActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_accept_request);
-        mAuth = FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_confirm_request);
 
+        BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
+        //set home selected
+        bottomNavigationView.setSelectedItemId(R.id.home);
+        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.home:
+
+                        return true;
+                    case R.id.shopping:
+                        startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.history:
+                        startActivity(new Intent((getApplicationContext()), History.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                    case R.id.profile:
+                        startActivity(new Intent((getApplicationContext()), Profile.class));
+                        overridePendingTransition(0, 0);
+                        return true;
+                }
+                return false;
+            }
+        });
+
+        mAuth = FirebaseAuth.getInstance();
         //Initial database
         db = FirebaseDatabase.getInstance().getReference().child("RequestItem");
 
@@ -89,7 +120,6 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         etAcceptorName = findViewById(R.id.textViewAcceptorName);
         etAcceptorPhoneNumber = findViewById(R.id.textViewAcceptorPhoneNumber);
         btnConfirm = findViewById(R.id.btnAccept);
-
         //set data
         Intent intent = this.getIntent();
 
@@ -162,6 +192,7 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
     private void ReadRequest(){

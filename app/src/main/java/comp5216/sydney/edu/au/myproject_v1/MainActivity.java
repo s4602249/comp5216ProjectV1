@@ -299,6 +299,7 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else if (statusCheck.equals("Accepted")){
+                            System.out.println("hello");
                             Intent intent = new Intent(MainActivity.this, ConfirmRequestActivity.class);
                             intent.putExtra("username", username);
                             intent.putExtra("title", items.get(position));

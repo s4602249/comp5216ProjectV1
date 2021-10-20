@@ -33,7 +33,16 @@
         <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/android/zAndroid_project/Myproject_v1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_accept_request.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_confirm_request.xml" value="0.125" />
+        <entry key="app/src/main/res/layout/activity_cancel_item_request.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_confirm_request.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_main_page.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_map.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_shopping_delivery.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_sign_up.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/layout/activity_wrapper.xml" value="0.18568840579710144" />
+        <entry key="app/src/main/res/menu/menu_navigation.xml" value="0.18802083333333333" />
       </map>
     </option>
   </component>
