@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -287,8 +286,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long
                     id) {
                 String titleName = username+items.get(position);
+                System.out.println(titleName);
                 DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("RequestItem").child(titleName).child("status");
-                reference1.addValueEventListener(new ValueEventListener() {
+                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         String statusCheck = snapshot.getValue(String.class);
@@ -313,6 +313,7 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+
             }
         });
     }
