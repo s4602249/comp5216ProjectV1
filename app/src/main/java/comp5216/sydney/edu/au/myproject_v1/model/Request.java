@@ -193,27 +193,31 @@ public class Request implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+//    @Override
+//    public String toString() {
+//        return "Request{" +
+//                "title='" + title + '\'' +
+//                ", creatorName='" + creatorName + '\'' +
+//                ", acceptorName='" + acceptorName + '\'' +
+//                ", address='" + address + '\'' +
+//                ", lat=" + lat +
+//                ", lng=" + lng +
+//                ", createTime=" + createTime +
+//                ", dueTime=" + dueTime +
+//                ", creatorPhoneNumber='" + creatorPhoneNumber + '\'' +
+//                ", acceptorPhoneNumber='" + acceptorPhoneNumber + '\'' +
+//                ", itemDescription1='" + itemDescription1 + '\'' +
+//                ", itemDescription2='" + itemDescription2 + '\'' +
+//                ", itemDescription3='" + itemDescription3 + '\'' +
+//                ", price1='" + price1 + '\'' +
+//                ", price2='" + price2 + '\'' +
+//                ", price3='" + price3 + '\'' +
+//                ", status='" + status + '\'' +
+//                ", totalPrice='" + totalPrice + '\'' +
+//                '}';
+//    }
     @Override
     public String toString() {
-        return "Request{" +
-                "title='" + title + '\'' +
-                ", creatorName='" + creatorName + '\'' +
-                ", acceptorName='" + acceptorName + '\'' +
-                ", address='" + address + '\'' +
-                ", lat=" + lat +
-                ", lng=" + lng +
-                ", createTime=" + createTime +
-                ", dueTime=" + dueTime +
-                ", creatorPhoneNumber='" + creatorPhoneNumber + '\'' +
-                ", acceptorPhoneNumber='" + acceptorPhoneNumber + '\'' +
-                ", itemDescription1='" + itemDescription1 + '\'' +
-                ", itemDescription2='" + itemDescription2 + '\'' +
-                ", itemDescription3='" + itemDescription3 + '\'' +
-                ", price1='" + price1 + '\'' +
-                ", price2='" + price2 + '\'' +
-                ", price3='" + price3 + '\'' +
-                ", status='" + status + '\'' +
-                ", totalPrice='" + totalPrice + '\'' +
-                '}';
+        return title;
     }
 }
