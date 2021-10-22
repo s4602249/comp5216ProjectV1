@@ -55,6 +55,8 @@
         <activity android:name=".shoppingRequest.CancelYourItem" />
         <activity android:name=".shoppingRequest.AcceptRequestActivity" />
         <activity android:name=".shoppingRequest.ConfirmRequestActivity" />
+        <activity android:name=".historyPage.showDeliverActivity" />
+        <activity android:name=".historyPage.showRequestActivity" />
 
         <service
             android:name=".notificationPackage.MessageService"

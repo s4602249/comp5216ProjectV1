@@ -32,9 +32,11 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
-import comp5216.sydney.edu.au.myproject_v1.map.Map;
 import comp5216.sydney.edu.au.myproject_v1.model.DeviceToken;
+import comp5216.sydney.edu.au.myproject_v1.model.Request;
 import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.CancelYourItem;
@@ -49,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
     TextView textView2;
     ImageButton request;
     TextView reqNameView;
+    TextView delNameView;
     TextView reqTitleView;
 
     String address;
@@ -63,9 +66,13 @@ public class MainActivity extends AppCompatActivity {
 
     SessionManager sessionManager;
 
+    ArrayList<Request> requests;
+
     ListView listView;
+    ListView dellstView;
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
+    ArrayAdapter<Request> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +83,14 @@ public class MainActivity extends AppCompatActivity {
         textView2 = findViewById(R.id.level);
         request = findViewById(R.id.request1);
         reqNameView = findViewById(R.id.reqName);
+        delNameView= findViewById(R.id.delName);
         reqTitleView = findViewById(R.id.reqTitle);
         listView = (ListView) findViewById(R.id.lstView);
+        dellstView = (ListView) findViewById(R.id.dellstView);
+
+        requests = new ArrayList<>();
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, requests);
+        dellstView.setAdapter(adapter);
 
         //Initialize SessionManager
         sessionManager = new SessionManager(getApplicationContext());
@@ -221,6 +234,7 @@ public class MainActivity extends AppCompatActivity {
                             textView2.setText("Level 4");
                         }
                         ReadReq();
+                        getDelivers();
                     }
                 }
 
@@ -246,13 +260,16 @@ public class MainActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                reqNameView.setText("None");
 
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     //datas.child("email")是一个键值对
-                    if (datas.getKey().startsWith(username)) { //changed to startswith
 
-                        if (!datas.child("status").getValue().toString().equals("Completed")) {
+                    if (datas.getKey().startsWith(username)) { //changed to startswith
+                        Log.i("req", username);
+                        Log.i("req", datas.child("creatorName").getValue().toString());
+                        if (datas.child("creatorName").getValue().toString().equals(username)
+                                &&(datas.child("status").getValue().toString().equals("Posted")
+                                || datas.child("status").getValue().toString().equals("Accepted"))) {
 
                             items.add(datas.child("title").getValue().toString());
                             reqNameView.setText("Request Title");
@@ -261,8 +278,11 @@ public class MainActivity extends AppCompatActivity {
 
                             // Connect the listView and the adapter
                             listView.setAdapter(itemsAdapter);
+                        } else {
+                            reqNameView.setText("None");
                         }
                     }
+
                 }
             }
             @Override
@@ -270,6 +290,61 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void getDelivers() {
+        reference = FirebaseDatabase.getInstance().getReference("RequestItem");
+        reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+
+                requests.clear();
+
+                List<Request> allRequests = new ArrayList<>();
+                if (task.getResult() != null) {
+                    java.util.Map map = (java.util.Map) task.getResult().getValue();
+                    if (map != null) {
+                        for (Object object : map.values()) {
+                            Request request = new Request();
+                            java.util.Map m = (Map) object;
+                            Log.i("acceptorName",String.valueOf(m.get("acceptorName")));
+                            if(String.valueOf(m.get("acceptorName")).equals(username)
+                                    && (String.valueOf(m.get("status")).equals("Posted")
+                                    || String.valueOf(m.get("status")).equals("Accepted"))) {
+                                request.setTitle(String.valueOf(m.get("title")));
+                                request.setCreatorName(String.valueOf(m.get("creatorName")));
+                                request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
+                                request.setAddress(String.valueOf(m.get("address")));
+                                request.setLat((double) m.get("lat"));
+                                request.setLng((double) m.get("lng"));
+                                request.setCreateTime((long) m.get("createTime"));
+                                request.setDueTime((long) m.get("dueTime"));
+                                request.setCreatorPhoneNumber(String.valueOf(m.get("creatorPhoneNumber")));
+                                request.setAcceptorPhoneNumber(m.get("acceptorPhoneNumber") == null ? null : String.valueOf(m.get("acceptorPhoneNumber")));
+                                request.setItemDescription1(String.valueOf(m.get("itemDescription1")));
+                                request.setPrice1(String.valueOf(m.get("price1")));
+                                request.setItemDescription2(String.valueOf(m.get("itemDescription2")));
+                                request.setPrice2(String.valueOf(m.get("price2")));
+                                request.setItemDescription3(String.valueOf(m.get("itemDescription3")));
+                                request.setPrice3(String.valueOf(m.get("price3")));
+                                request.setTotalPrice(String.valueOf(m.get("totalPrice")));
+                                request.setStatus(String.valueOf(m.get("status")));
+                                requests.add(request);
+                            }
+
+                        }
+                    }
+
+                }
+
+                adapter.notifyDataSetChanged();
+
+
+            }
+
+        });
+
+
     }
 
     //list view setup
@@ -282,6 +357,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long
+                    id) {
+                String titleName = username+items.get(position);
+                System.out.println(titleName);
+                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("RequestItem").child(titleName).child("status");
+                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        String statusCheck = snapshot.getValue(String.class);
+                        if(statusCheck.equals("Posted")){
+                            Intent intent = new Intent(MainActivity.this, CancelYourItem.class);
+                            intent.putExtra("username", username);
+                            intent.putExtra("title", items.get(position));
+                            startActivity(intent);
+                            finish();
+                        } else if (statusCheck.equals("Accepted")){
+                            System.out.println("hello");
+                            Intent intent = new Intent(MainActivity.this, ConfirmRequestActivity.class);
+                            intent.putExtra("username", username);
+                            intent.putExtra("title", items.get(position));
+                            startActivity(intent);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+        dellstView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int
+                    position, long rowId) {
+                Log.i("MainActivity", "Long Clicked item " + position);
+                return true;
+            }
+        });
+        dellstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long
                     id) {

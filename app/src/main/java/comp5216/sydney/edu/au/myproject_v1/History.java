@@ -176,7 +176,9 @@ public class History extends AppCompatActivity {
                             Map m = (Map) object;
 //                            Log.i("creatorName",String.valueOf(m.get("creatorName")));
 //                            Log.i("userame",username);
-                            if(String.valueOf(m.get("creatorName")).equals(username)) {
+                            if(String.valueOf(m.get("creatorName")).equals(username)
+                                    && (String.valueOf(m.get("status")).equals("Completed")
+                            || String.valueOf(m.get("status")).equals("Overdue"))) {
 //                                Log.i("mylog","load?");
 //                                Log.i("nbame",String.valueOf(m.get("acceptorName")));
                                 request.setTitle(String.valueOf(m.get("title")));
@@ -229,7 +231,9 @@ public class History extends AppCompatActivity {
                             Request request = new Request();
                             Map m = (Map) object;
                             // Log.i("acceptorName",String.valueOf(m.get("acceptorName")));
-                            if(String.valueOf(m.get("acceptorName")).equals(username)) {
+                            if(String.valueOf(m.get("acceptorName")).equals(username)
+                                    && (String.valueOf(m.get("status")).equals("Completed")
+                                    || String.valueOf(m.get("status")).equals("Overdue"))) {
                                 request.setTitle(String.valueOf(m.get("title")));
                                 request.setCreatorName(String.valueOf(m.get("creatorName")));
                                 request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
