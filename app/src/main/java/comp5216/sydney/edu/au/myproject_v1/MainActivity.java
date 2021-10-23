@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -141,7 +143,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //get battery level and charging status
+        BatteryManager bm = (BatteryManager) MainActivity.this.getSystemService(BATTERY_SERVICE);
+        int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
+
+
+
+
+
         request.setOnClickListener(view -> {
+            if(batLevel<5){
+                Toast.makeText(MainActivity.this, "Cannot post request since battery is lower than 5% ",
+                        Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+            else{
             reference = FirebaseDatabase.getInstance().getReference("RequestItem");
 
             reference.addValueEventListener(new ValueEventListener() {
@@ -187,6 +205,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("username", username);
             startActivity(intent);
             finish();
+            }
         });
 
         //call Listview

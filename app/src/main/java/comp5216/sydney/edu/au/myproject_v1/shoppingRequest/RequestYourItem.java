@@ -532,12 +532,10 @@ public class RequestYourItem extends AppCompatActivity {
                         //datas.child("email")是一个键值对
                         System.out.println("????");
                         System.out.println(datas.child("phoneNumber").getValue().toString());
-                        contactNum.setText(datas.child("phoneNumber").getValue().toString());
+                        //contactNum.setText(datas.child("phoneNumber").getValue().toString());
                     }
                 }
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

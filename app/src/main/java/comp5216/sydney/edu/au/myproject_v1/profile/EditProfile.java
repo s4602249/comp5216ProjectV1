@@ -87,7 +87,7 @@ public class EditProfile extends AppCompatActivity {
         Bundle bundle = intent1.getExtras();
         if (bundle != null) {
             String data = bundle.getString("Address");
-            System.out.println("--------------------------------" + data);
+            System.out.println("--------------------------------address" + data);
             text4.setText(bundle.getString("telnumIntent"));
             text5.setText(data);
             text6.setText(bundle.getString("CardIntent"));
@@ -97,10 +97,29 @@ public class EditProfile extends AppCompatActivity {
             lng=bundle.getDouble("lng");
         }
 
-        setInfoValue();
+        //setInfoValue();-> no need
+
         btnConfirm.setOnClickListener(view -> {
+
+            if (TextUtils.isEmpty(text4.getText())) {
+                text4.setError("All the fields cannot be null");
+                text4.requestFocus();
+            } else if (TextUtils.isEmpty(text5.getText())) {
+                text5.setError("All the fields cannot be null");
+                text5.requestFocus();
+            } else if (TextUtils.isEmpty(text6.getText())) {
+                text6.setError("All the fields cannot be null");
+                text6.requestFocus();
+            } else if (TextUtils.isEmpty(text7.getText())) {
+                text7.setError("All the fields cannot be null");
+                text7.requestFocus();
+            } else if (TextUtils.isEmpty(text8.getText())) {
+                text8.setError("All the fields cannot be null");
+                text8.requestFocus();
+            } else {
+
                 reference.child(username).child("address").setValue(text5.getText().toString());
-                reference.child(username).child("tel").setValue(text4.getText().toString());
+                reference.child(username).child("phoneNumber").setValue(text4.getText().toString());
                 reference.child(username).child("cardnumber").setValue(text6.getText().toString());
                 reference.child(username).child("cvv").setValue(text8.getText().toString());
                 reference.child(username).child("expiredate").setValue(text7.getText().toString());
@@ -109,7 +128,7 @@ public class EditProfile extends AppCompatActivity {
                 startActivity(new Intent(EditProfile.this, Profile.class));
                 Toast.makeText(EditProfile.this, "You have successfully edited your profile!", Toast.LENGTH_SHORT).show();
                 finish();
-
+            }
         });
 
         curloc.setOnClickListener(view -> {
@@ -275,7 +294,7 @@ public class EditProfile extends AppCompatActivity {
     }
 
     //autofill information
-    private void setInfoValue(){
+    /*private void setInfoValue(){
         DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users");
 
         reference1.addValueEventListener(new ValueEventListener() {
@@ -284,11 +303,11 @@ public class EditProfile extends AppCompatActivity {
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     //datas.child("email")是一个键值对
                     if (datas.child("email").getValue().toString().equals(sessionManager.getUsername())) {
-                        text4.setText(datas.child("phoneNumber").getValue().toString());
+                        //text4.setText(datas.child("phoneNumber").getValue().toString());
                         //text5.setText(datas.child("address").getValue().toString());
-                        text6.setText(datas.child("cardnumber").getValue().toString());
-                        text6.setText(datas.child("expiredate").getValue().toString());
-                        text6.setText(datas.child("cvv").getValue().toString());
+                        //text6.setText(datas.child("cardnumber").getValue().toString());
+                        //text6.setText(datas.child("expiredate").getValue().toString());
+                        //text6.setText(datas.child("cvv").getValue().toString());
                     }
                 }
 
@@ -299,5 +318,5 @@ public class EditProfile extends AppCompatActivity {
 
             }
         });
-    }
+    }*/
 }
