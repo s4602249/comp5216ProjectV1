@@ -29,12 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import comp5216.sydney.edu.au.myproject_v1.historyPage.showRequestActivity;
 import comp5216.sydney.edu.au.myproject_v1.model.DeviceToken;
 import comp5216.sydney.edu.au.myproject_v1.model.Request;
 import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
@@ -42,6 +44,7 @@ import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.CancelYourItem;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.ConfirmRequestActivity;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.RequestYourItem;
+import comp5216.sydney.edu.au.myproject_v1.historyPage.showDeliverActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -73,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<String> items;
     ArrayAdapter<String> itemsAdapter;
     ArrayAdapter<Request> adapter;
+    SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
         reqTitleView = findViewById(R.id.reqTitle);
         listView = (ListView) findViewById(R.id.lstView);
         dellstView = (ListView) findViewById(R.id.dellstView);
+
 
         requests = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, requests);
@@ -391,46 +396,47 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        dellstView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int
-                    position, long rowId) {
-                Log.i("MainActivity", "Long Clicked item " + position);
-                return true;
-            }
-        });
         dellstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long
-                    id) {
-                String titleName = username+items.get(position);
-                System.out.println(titleName);
-                DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("RequestItem").child(titleName).child("status");
-                reference1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String statusCheck = snapshot.getValue(String.class);
-                        if(statusCheck.equals("Posted")){
-                            Intent intent = new Intent(MainActivity.this, CancelYourItem.class);
-                            intent.putExtra("username", username);
-                            intent.putExtra("title", items.get(position));
-                            startActivity(intent);
-                            finish();
-                        } else if (statusCheck.equals("Accepted")){
-                            System.out.println("hello");
-                            Intent intent = new Intent(MainActivity.this, ConfirmRequestActivity.class);
-                            intent.putExtra("username", username);
-                            intent.putExtra("title", items.get(position));
-                            startActivity(intent);
-                            finish();
-                        }
-                    }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                Request request = (Request) dellstView.getItemAtPosition(position);
+                String title = request.getTitle();
+                String itemDescription1 = request.getItemDescription1();
+                String itemDescription2 = request.getItemDescription2();
+                String itemDescription3 = request.getItemDescription3();
+                String price1 = request.getPrice1();
+                String price2 = request.getPrice2();
+                String price3 = request.getPrice3();
+                String totalPrice = request.getTotalPrice();
+                String createTime = format.format(request.getCreateTime());
+                String dueTime = format.format(request.getDueTime());
+                String status = request.getStatus();
+                String acceptorName = request.getAcceptorName();
+                String acceptorPhoneNumber = request.getAcceptorPhoneNumber();
+                String creatorName = request.getCreatorName();
+                String creatorPhoneNumber = request.getCreatorPhoneNumber();
 
-                    }
-                });
 
+                Intent intent = new Intent(MainActivity.this, showDeliverActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("title", title);
+                bundle.putString("itemDescription1", itemDescription1);
+                bundle.putString("itemDescription2", itemDescription2);
+                bundle.putString("itemDescription3", itemDescription3);
+                bundle.putString("price1", price1);
+                bundle.putString("price2", price2);
+                bundle.putString("price3", price3);
+                bundle.putString("totalPrice", totalPrice);
+                bundle.putString("createTime", createTime);
+                bundle.putString("dueTime", dueTime);
+                bundle.putString("status", status);
+                bundle.putString("acceptorName", acceptorName);
+                bundle.putString("acceptorPhoneNumber", acceptorPhoneNumber);
+                bundle.putString("creatorName", creatorName);
+                bundle.putString("creatorPhoneNumber", creatorPhoneNumber);
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
