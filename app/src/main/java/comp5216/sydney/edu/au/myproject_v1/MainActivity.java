@@ -1,10 +1,15 @@
 package comp5216.sydney.edu.au.myproject_v1;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -99,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, requests);
         dellstView.setAdapter(adapter);
 
+
         //Initialize SessionManager
         sessionManager = new SessionManager(getApplicationContext());
 
@@ -127,8 +133,28 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.home:
                         return true;
                     case R.id.shopping:
-                        startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
-                        overridePendingTransition(0, 0);
+                        //check wifiConnection
+                        if(checkWifiConnection()==false){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                            builder.setTitle("Wifi warning")
+                                    .setMessage("We found that you are not connecting to Wifi. Browsing the map will consume more data usage, are you sure you want to continue?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
+                                            overridePendingTransition(0, 0);
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                            builder.create().show();
+                        }
                         return true;
                     case R.id.history:
                         startActivity(new Intent((getApplicationContext()), History.class));
@@ -146,9 +172,6 @@ public class MainActivity extends AppCompatActivity {
         //get battery level and charging status
         BatteryManager bm = (BatteryManager) MainActivity.this.getSystemService(BATTERY_SERVICE);
         int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-
-
-
 
 
         request.setOnClickListener(view -> {
@@ -481,5 +504,11 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private boolean checkWifiConnection(){
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return wifi.isConnected();
     }
 }
