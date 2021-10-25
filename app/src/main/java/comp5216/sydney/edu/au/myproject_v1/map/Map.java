@@ -3,10 +3,8 @@ package comp5216.sydney.edu.au.myproject_v1.map;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -22,12 +20,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.RegisterActivity;
 
+/**
+ * This class is used for RegisterActivity class, and save the information that passed from RegisterActivity
+ */
 public class Map extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap map;
     SupportMapFragment mapFragment;
@@ -46,21 +46,20 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
         button = findViewById(R.id.back);
         gMap=findViewById(R.id.google_map);
 
-
+        //receive the information from RegisterActivity
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-
         String emailIntent = bundle.getString("emailIntent");
         String passwordIntent = bundle.getString("passwordIntent");
         String NameIntent = bundle.getString("NameIntent");
         String telnumIntent = bundle.getString("telnumIntent");
-
         String CardIntent = bundle.getString("CardIntent");
         String expIntent = bundle.getString("expIntent");
         String CvvIntent = bundle.getString("CvvIntent");
         System.out.println("--------------------------------" + CvvIntent);
         System.out.println("--------------------------------" + emailIntent);
 
+        //when click the button, send back the information stored in intent
         button.setOnClickListener(view -> {
             Intent intent1 = new Intent(Map.this, RegisterActivity.class);
             try {
@@ -94,6 +93,10 @@ public class Map extends FragmentActivity implements OnMapReadyCallback {
         map = googleMap;
 
     }
+
+    /**
+     * create a new thread for searching the location
+     */
     private void doStuff(){
         new Thread(new Runnable() {
             @Override

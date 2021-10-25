@@ -23,6 +23,10 @@ import comp5216.sydney.edu.au.myproject_v1.profile.EditProfile;
 import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 
+
+/**
+ * display the User profile page
+ */
 public class Profile extends AppCompatActivity {
     Button buttonLogout;
     Button buttonEdit;
@@ -127,6 +131,7 @@ public class Profile extends AppCompatActivity {
         });
     }
 
+    //read user information via email
     public void Read(String data) {
         reference = FirebaseDatabase.getInstance().getReference("Users");
 

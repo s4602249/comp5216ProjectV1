@@ -24,7 +24,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import comp5216.sydney.edu.au.myproject_v1.map.Map;
 import comp5216.sydney.edu.au.myproject_v1.model.User;
 
-
+/**
+ * user can register through this activity
+ */
 public class RegisterActivity extends AppCompatActivity {
     EditText etRegEmail;
     EditText etTePassword;
@@ -65,7 +67,7 @@ public class RegisterActivity extends AppCompatActivity {
         cvvInput = findViewById(R.id.field8);
         curloc = findViewById(R.id.findLocationn);
 
-
+        //receive the information from Map.class
         Intent intent1 = getIntent();
         Bundle bundle = intent1.getExtras();
         if (bundle != null) {
@@ -101,7 +103,7 @@ public class RegisterActivity extends AppCompatActivity {
                     .setNegativeButton(R.string.Yes, new
                             DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    //send information to Map.class
                                     intent = new Intent(RegisterActivity.this, Map.class);
                                     intent.putExtra("emailIntent", etRegEmail.getText().toString());
                                     intent.putExtra("passwordIntent",etTePassword.getText().toString());
@@ -122,6 +124,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
+    //create new user in database
     private void createUser() {
         mAuth = FirebaseAuth.getInstance();
         String email = etRegEmail.getText().toString();
@@ -134,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
         String Card = CardInput.getText().toString();
         String exp = expireInput.getText().toString();
         String Cvv = cvvInput.getText().toString();
-
+        //field validation
         if (TextUtils.isEmpty(Name)) {
             nameInput.setError("user name cannot be null");
             nameInput.requestFocus();

@@ -7,6 +7,9 @@ import android.widget.Button;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * Wrapper class, user can choose log in and sign up
+ */
 public class Wrapper extends AppCompatActivity {
     Button login;
     Button signup;

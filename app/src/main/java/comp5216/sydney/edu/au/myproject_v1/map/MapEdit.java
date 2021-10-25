@@ -5,7 +5,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -23,9 +22,11 @@ import java.io.IOException;
 import java.util.List;
 
 import comp5216.sydney.edu.au.myproject_v1.R;
-import comp5216.sydney.edu.au.myproject_v1.RegisterActivity;
 import comp5216.sydney.edu.au.myproject_v1.profile.EditProfile;
 
+/**
+ * This class is used for EditProfile class, and save the information that passed from EditProfile
+ */
 public class MapEdit extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap map;
     SupportMapFragment mapFragment;
@@ -42,6 +43,7 @@ public class MapEdit extends FragmentActivity implements OnMapReadyCallback {
         searchView = findViewById(R.id.sv_location);
         button = findViewById(R.id.back);
 
+        //receive the information from EditProfile
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
 
@@ -53,7 +55,7 @@ public class MapEdit extends FragmentActivity implements OnMapReadyCallback {
         String CvvIntent = bundle.getString("CvvIntent");
         System.out.println("--------------------------------" + CvvIntent);
 
-
+        //when click the button, send back the information stored in intent
         button.setOnClickListener(view -> {
             Intent intent1 = new Intent(MapEdit.this, EditProfile.class);
             try {

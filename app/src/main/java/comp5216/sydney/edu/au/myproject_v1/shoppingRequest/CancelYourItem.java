@@ -4,39 +4,36 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import comp5216.sydney.edu.au.myproject_v1.History;
 import comp5216.sydney.edu.au.myproject_v1.MainActivity;
 import comp5216.sydney.edu.au.myproject_v1.Profile;
 import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
-import comp5216.sydney.edu.au.myproject_v1.Wrapper;
 
+
+/**
+ * This class is used to cancel the request item
+ */
 public class CancelYourItem extends AppCompatActivity {
     String username;
     String TitlePassHere;
     TextView title;
+
+    //Users can request three items at most one time
     TextView itemName1;
     TextView itemName2;
     TextView itemName3;
@@ -58,6 +55,7 @@ public class CancelYourItem extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cancel_item_request);
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
+        //set bottom navigation bar
         //set home selected
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,13 +81,15 @@ public class CancelYourItem extends AppCompatActivity {
                 return false;
             }
         });
+
+        //back to MainActivity class
         back=findViewById(R.id.back1);
         back.setOnClickListener(view -> {
             Intent intent = new Intent(CancelYourItem.this, MainActivity.class);
             startActivity(intent);
             finish();
         });
-        //get username from MainActivity
+        //get information from MainActivity
         Intent intent1 = getIntent();
         Bundle bundle = intent1.getExtras();
         if (bundle != null) {
@@ -121,6 +121,10 @@ public class CancelYourItem extends AppCompatActivity {
 
     }
 
+    /**
+     * delete request from database
+     * @param name
+     */
     public void DeleteReq(String name){
         reference= FirebaseDatabase.getInstance().getReference("RequestItem");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -139,6 +143,11 @@ public class CancelYourItem extends AppCompatActivity {
             }
         });
     }
+
+    /**
+     * read data from database
+     * @param name
+     */
     public void ReadReq(String name){
         reference= FirebaseDatabase.getInstance().getReference("RequestItem");
 

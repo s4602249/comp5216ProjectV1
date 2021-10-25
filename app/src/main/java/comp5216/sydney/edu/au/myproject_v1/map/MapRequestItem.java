@@ -18,17 +18,15 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
-
 import comp5216.sydney.edu.au.myproject_v1.R;
-import comp5216.sydney.edu.au.myproject_v1.RegisterActivity;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.RequestYourItem;
 
+/**
+ * This class is used for RequestYourItem class, and save the information that passed from EditProfile
+ */
 public class MapRequestItem extends FragmentActivity implements OnMapReadyCallback {
     GoogleMap map;
     SupportMapFragment mapFragment;

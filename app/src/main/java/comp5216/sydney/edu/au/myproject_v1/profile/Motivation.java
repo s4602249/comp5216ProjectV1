@@ -17,6 +17,9 @@ import comp5216.sydney.edu.au.myproject_v1.Profile;
 import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
 
+/**
+ * This is just a class to show the motivation page
+ */
 public class Motivation extends AppCompatActivity {
     ImageButton imageButton;
     @Override
@@ -29,6 +32,7 @@ public class Motivation extends AppCompatActivity {
             finish();
         });
 
+        // set bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
         //set home selected
         bottomNavigationView.setSelectedItemId(R.id.profile);

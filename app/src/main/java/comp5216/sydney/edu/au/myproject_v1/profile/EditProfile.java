@@ -31,18 +31,18 @@ import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
 import comp5216.sydney.edu.au.myproject_v1.map.MapEdit;
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 
+/**
+ * Users can edit their profile
+ */
 public class EditProfile extends AppCompatActivity {
     DatabaseReference reference;
     SessionManager sessionManager;
     FirebaseAuth mAuth;
-
-
     EditText text4;
     EditText text5;
     EditText text6;
     EditText text7;
     EditText text8;
-
     Button btnCancel, btnConfirm;
     String address;
     String cardnum;
@@ -53,7 +53,6 @@ public class EditProfile extends AppCompatActivity {
     int point;
     String tel;
     String username;
-
     ImageButton curloc;
     Intent intent;
     double lat;
@@ -79,10 +78,9 @@ public class EditProfile extends AppCompatActivity {
         //Get email from session
         String sEmail = sessionManager.getUsername();
         //read data
-
         Read(sEmail);
 
-        // receive intent
+        // receive intent from MapEdit
         Intent intent1 = getIntent();
         Bundle bundle = intent1.getExtras();
         if (bundle != null) {
@@ -99,8 +97,9 @@ public class EditProfile extends AppCompatActivity {
 
         //setInfoValue();-> no need
 
+        // when the confirm button is clicked
         btnConfirm.setOnClickListener(view -> {
-
+            //field validation
             if (TextUtils.isEmpty(text4.getText())) {
                 text4.setError("All the fields cannot be null");
                 text4.requestFocus();
@@ -118,6 +117,7 @@ public class EditProfile extends AppCompatActivity {
                 text8.requestFocus();
             } else {
 
+                //update the information to database
                 reference.child(username).child("address").setValue(text5.getText().toString());
                 reference.child(username).child("phoneNumber").setValue(text4.getText().toString());
                 reference.child(username).child("cardnumber").setValue(text6.getText().toString());
@@ -131,6 +131,7 @@ public class EditProfile extends AppCompatActivity {
             }
         });
 
+        //user click the location button
         curloc.setOnClickListener(view -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(EditProfile.this);
@@ -147,7 +148,7 @@ public class EditProfile extends AppCompatActivity {
                             DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
-
+                                    //go to MapEdit class
                                     intent = new Intent(EditProfile.this, MapEdit.class);
                                     intent.putExtra("telnumIntent",text4.getText().toString());
                                     intent.putExtra("AddressIntent",text5.getText().toString());
@@ -163,11 +164,12 @@ public class EditProfile extends AppCompatActivity {
 
 
 
-
+        //if cancel button clicked nothing happened
         btnCancel.setOnClickListener(view -> {
             startActivity(new Intent(EditProfile.this, Profile.class));
             finish();
         });
+        //set bottom navigation bar
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
         //set home selected
         bottomNavigationView.setSelectedItemId(R.id.profile);
@@ -264,6 +266,7 @@ public class EditProfile extends AppCompatActivity {
     }
 */
 
+    // Read data from database
     public void Read(String data) {
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -271,7 +274,7 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot datas : snapshot.getChildren()) {
-                    //datas.child("email")是一个键值对
+                    //datas.child("email")is a key tree
                     if (datas.child("email").getValue().toString().equals(data)) {
                         username = datas.child("username").getValue().toString();
                         address = datas.child("address").getValue().toString();

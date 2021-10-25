@@ -23,16 +23,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,21 +39,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import comp5216.sydney.edu.au.myproject_v1.History;
-
 import comp5216.sydney.edu.au.myproject_v1.MainActivity;
 import comp5216.sydney.edu.au.myproject_v1.Profile;
 import comp5216.sydney.edu.au.myproject_v1.R;
-
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
-
 import comp5216.sydney.edu.au.myproject_v1.map.MapRequestItem;
 import comp5216.sydney.edu.au.myproject_v1.model.Request;
 
-
+/**
+ * user can request their new item
+ */
 public class RequestYourItem extends AppCompatActivity {
     FirebaseAuth mAuth;
-    DatabaseReference reqRef;
     //DatabaseReference reference;
+    DatabaseReference reqRef;
     EditText textTitle;
     EditText itemName1;
     EditText itemName2;
@@ -75,6 +71,7 @@ public class RequestYourItem extends AppCompatActivity {
     TextView TotalPrice;
     TextView Depsit;
 
+    //store the location of the request
     double lat;
     double lng;
 
@@ -85,6 +82,7 @@ public class RequestYourItem extends AppCompatActivity {
         setContentView(R.layout.activity_request_your_item);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
+        //set bottom navigation bar
         //set home selected
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -119,7 +117,7 @@ public class RequestYourItem extends AppCompatActivity {
         price3 = findViewById(R.id.Text7);
         TotalPrice = findViewById(R.id.totalPriceCan);
         Depsit = findViewById(R.id.timeCan);
-        //add textChangedListener
+
         back = findViewById(R.id.back1);
 
         // go back to main page
@@ -129,7 +127,7 @@ public class RequestYourItem extends AppCompatActivity {
             finish();
         });
 
-
+        //add textChangedListener
         price1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -142,6 +140,7 @@ public class RequestYourItem extends AppCompatActivity {
             }
 
             @Override
+            //price validation
             public void afterTextChanged(Editable editable) {
                 if (price1.getText().toString().equals("")) {
                     price1.setText("0");
@@ -253,6 +252,7 @@ public class RequestYourItem extends AppCompatActivity {
         confirm = findViewById(R.id.cancelReq);
 
         mAuth = FirebaseAuth.getInstance();
+        //go to MapRequestItem.class when click the image view
         curloc.setOnClickListener(view -> {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(RequestYourItem.this);
@@ -268,7 +268,7 @@ public class RequestYourItem extends AppCompatActivity {
                     .setNegativeButton(R.string.Yes, new
                             DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialogInterface, int i) {
-
+                                    //send information to MapRequestItem class
                                     intent = new Intent(RequestYourItem.this, MapRequestItem.class);
                                     intent.putExtra("usernameIntent", username);
                                     intent.putExtra("textTitleIntent", textTitle.getText().toString());
@@ -289,6 +289,7 @@ public class RequestYourItem extends AppCompatActivity {
         });
         Intent intent1 = getIntent();
         Bundle bundle = intent1.getExtras();
+        //receive the information from MapRequestItem class
         if (bundle != null) {
             String data = bundle.getString("Address");
             System.out.println("--------------------------------" + data);
@@ -436,14 +437,12 @@ public class RequestYourItem extends AppCompatActivity {
                 }*/
 
 
-
                 reqRef = FirebaseDatabase.getInstance().getReference().child("RequestItem").child(username + textTitleUpload);
-                String status="";
-                if(dueTime.getTime()<nowTime.getTime()){ //less than now
-                    status="Overdue";
-                }
-                else{
-                    status="Posted";
+                String status = "";
+                if (dueTime.getTime() < nowTime.getTime()) { //less than now
+                    status = "Overdue";
+                } else {
+                    status = "Posted";
                 }
                 Request request = new Request(textTitleUpload, username, "", addressUpload,
                         lat, lng, createTime.getTime(), dueTime.getTime(), contactNumUpload,
@@ -466,7 +465,11 @@ public class RequestYourItem extends AppCompatActivity {
 
     }
 
-    //check the num if it is integer
+    /**
+     * check the num if it is integer
+     * @param str the string input
+     * @return ture if it is numeric
+     */
     public static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*\\.?[0-9]+");
         Matcher isNum = pattern.matcher(str);
@@ -488,22 +491,26 @@ public class RequestYourItem extends AppCompatActivity {
 //        return true;
 //    }
 
+    /**
+     * use time picker
+     * @param date_time_in the inpt EditText
+     */
     private void showDateTimeDialog(final EditText date_time_in) {
-        final Calendar calendar=Calendar.getInstance();
-        DatePickerDialog.OnDateSetListener dateSetListener=new DatePickerDialog.OnDateSetListener() {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                calendar.set(Calendar.YEAR,year);
-                calendar.set(Calendar.MONTH,month);
-                calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, month);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 
-                TimePickerDialog.OnTimeSetListener timeSetListener=new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        calendar.set(Calendar.HOUR_OF_DAY,hourOfDay);
-                        calendar.set(Calendar.MINUTE,minute);
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
 
-                        SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yy-MM-dd HH:mm");
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yy-MM-dd HH:mm");
                         //save date string in to @deadline, which used for sending back to the main activity
                         String deadline = simpleDateFormat.format(calendar.getTime());
                         time.setText(deadline);
@@ -513,29 +520,30 @@ public class RequestYourItem extends AppCompatActivity {
                     }
                 };
 
-                new TimePickerDialog(RequestYourItem.this,timeSetListener,calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE),false).show();
+                new TimePickerDialog(RequestYourItem.this, timeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), false).show();
             }
         };
 
-        new DatePickerDialog(RequestYourItem.this,dateSetListener,calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DAY_OF_MONTH)).show();
+        new DatePickerDialog(RequestYourItem.this, dateSetListener, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
 
     }
 
-    private void setInfo(){
+    private void setInfo() {
         DatabaseReference reference1 = FirebaseDatabase.getInstance().getReference("Users");
         reference1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot datas : snapshot.getChildren()) {
                     System.out.println(datas.child("username").getValue().toString());
-                    if(datas.child("username").getValue().toString().equals(username)){
-                        //datas.child("email")是一个键值对
+                    if (datas.child("username").getValue().toString().equals(username)) {
+                        //datas.child("email")is a key value
                         System.out.println("????");
                         System.out.println(datas.child("phoneNumber").getValue().toString());
                         //contactNum.setText(datas.child("phoneNumber").getValue().toString());
                     }
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 

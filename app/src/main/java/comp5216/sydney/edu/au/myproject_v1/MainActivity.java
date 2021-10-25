@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             //textView1.setText(username);
         }*/
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
+        //set bottom navigation bar
         //set home selected
         bottomNavigationView.setSelectedItemId(R.id.home);
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -169,12 +170,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //get battery level and charging status
+        //get battery level
         BatteryManager bm = (BatteryManager) MainActivity.this.getSystemService(BATTERY_SERVICE);
         int batLevel = bm.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
 
 
         request.setOnClickListener(view -> {
+            // if battery lower than 5%, then user cannot post new request
             if(batLevel<5){
                 Toast.makeText(MainActivity.this, "Cannot post request since battery is lower than 5% ",
                         Toast.LENGTH_LONG).show();
@@ -247,7 +249,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    // read user's data and display in scrren
+    // read user's data and display in the screen
     public void Read(String data) {
         reference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -339,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //read deliverys from database
     public void getDelivers() {
         reference = FirebaseDatabase.getInstance().getReference("RequestItem");
         reference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
