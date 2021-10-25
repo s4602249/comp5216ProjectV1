@@ -49,7 +49,7 @@ public class ShoppingDelivery extends AppCompatActivity implements GoogleMap.OnM
     FirebaseAuth mAuth;
     DatabaseReference db = FirebaseDatabase.getInstance().getReference();
 
-    /** current location */
+    // current location
     private LatLng currLocation;
 
     GoogleMap mMap;
@@ -68,8 +68,6 @@ public class ShoppingDelivery extends AppCompatActivity implements GoogleMap.OnM
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         mAuth = FirebaseAuth.getInstance();
-        /** insert test data */
-        /*insertTestData();*/
 
         //get user information
         sessionManager = new SessionManager(getApplicationContext());
@@ -214,76 +212,4 @@ public class ShoppingDelivery extends AppCompatActivity implements GoogleMap.OnM
         return false;
     }
 
-    public void insertTestData() {
-        User user1 = new User();
-        user1.setUsername("Bob");
-        user1.setEmail("Bob2021@gmail.com");
-        user1.setPassword("123456");
-        user1.setAddress("#1A, 2345 Avenue, Sydney");
-        user1.setLat(-33.8692);
-        user1.setLng(151.2092);
-        user1.setPhoneNumber("13000000000");
-        db.child("Users").child(user1.getUsername()).setValue(user1);
-        User user2 = new User();
-        user2.setUsername("Tom");
-        user2.setEmail("Tom2021@gmail.com");
-        user2.setPassword("456789");
-        user2.setAddress("#2B, 7890 Avenue, Sydney");
-        user2.setLat(-33.8692);
-        user2.setLng(152.2092);
-        user2.setPhoneNumber("13012345678");
-        db.child("Users").child(user2.getUsername()).setValue(user2);
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.DAY_OF_MONTH, 3);
-        Date laterTime = calendar.getTime();
-
-        Request req1 = new Request();
-        req1.setTitle("test request");
-        req1.setCreatorName(user1.getUsername());
-        req1.setAcceptorName(null);
-        req1.setAddress(user1.getAddress());
-        req1.setLat(user1.getLat());
-        req1.setLng(user1.getLng());
-        req1.setCreateTime(new Date().getTime());
-        req1.setDueTime(laterTime.getTime());
-        req1.setCreatorPhoneNumber(user1.getPhoneNumber());
-        req1.setAcceptorPhoneNumber(null);
-        req1.setItemDescription1("a dozen of toilet paper");
-        double price11 = 2.0;
-        req1.setPrice1(String.valueOf(price11));
-        req1.setItemDescription2("a box of milk");
-        double price12 = 5.2;
-        req1.setPrice2(String.valueOf(price12));
-        req1.setItemDescription3(null);
-        double price13 = 0;
-        req1.setPrice3(String.valueOf(price13));
-        req1.setTotalPrice(String.valueOf(price11 + price12 + price13));
-        req1.setStatus("Posted");
-        db.child("RequestItem").child(req1.getCreatorName() + req1.getTitle()).setValue(req1);
-
-        Request req2 = new Request();
-        req2.setTitle("test request");
-        req2.setCreatorName(user2.getUsername());
-        req2.setAcceptorName(null);
-        req2.setAddress(user2.getAddress());
-        req2.setLat(user2.getLat());
-        req2.setLng(user2.getLng());
-        req2.setCreateTime(new Date().getTime());
-        req2.setDueTime(laterTime.getTime());
-        req2.setCreatorPhoneNumber(user2.getPhoneNumber());
-        req2.setAcceptorPhoneNumber(null);
-        req2.setItemDescription1("a bag of chips");
-        double price21 = 1.6;
-        req2.setPrice1(String.valueOf(price21));
-        req2.setItemDescription2("a pen");
-        double price22 = 10;
-        req2.setPrice2(String.valueOf(price22));
-        req2.setItemDescription3(null);
-        double price23 = 0;
-        req2.setPrice3(String.valueOf(price23));
-        req2.setTotalPrice(String.valueOf(price21 + price22 + price23));
-        req2.setStatus("Posted");
-        db.child("RequestItem").child(req2.getCreatorName() + req2.getTitle()).setValue(req2);
-    }
 }

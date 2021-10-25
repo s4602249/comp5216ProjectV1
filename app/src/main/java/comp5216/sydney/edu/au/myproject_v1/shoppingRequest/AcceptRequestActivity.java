@@ -94,9 +94,6 @@ public class AcceptRequestActivity extends AppCompatActivity {
         user = null;
         request = null;
         if (intent != null) {
-            //get user information
-            /*initializeUser();*/
-            /*user = (User) intent.getSerializableExtra("user");*/
             user = (User) intent. getSerializableExtra("user");
             request = (Request) intent.getSerializableExtra("request");
         }
@@ -145,17 +142,6 @@ public class AcceptRequestActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
-
-    public void initializeUser() {
-        user = new User();
-        user.setUsername("Bob");
-        user.setEmail("Bob2021@gmail.com");
-        user.setPassword("123456");
-        user.setAddress("#1A, 2345 Avenue, Sydney");
-        user.setLat(-33.8692);
-        user.setLng(151.2092);
-        user.setPhoneNumber("13000000000");
     }
 
     private void sendNotification(){
