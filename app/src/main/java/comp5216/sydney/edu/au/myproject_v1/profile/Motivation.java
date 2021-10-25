@@ -1,12 +1,17 @@
 package comp5216.sydney.edu.au.myproject_v1.profile;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,8 +50,31 @@ public class Motivation extends AppCompatActivity {
                         overridePendingTransition(0, 0);
                         return true;
                     case R.id.shopping:
-                        startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
-                        overridePendingTransition(0, 0);
+                        //check wifiConnection
+                        if(checkWifiConnection()==false){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(Motivation.this);
+                            builder.setTitle("Wifi warning")
+                                    .setMessage("We found that you are not connecting to Wifi. Browsing the map will consume more data usage, are you sure you want to continue?")
+                                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
+                                            overridePendingTransition(0, 0);
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            Intent intent = new Intent(Motivation.this, Motivation.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                            builder.create().show();
+                        } else{
+                            startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
+                            overridePendingTransition(0, 0);
+                        }
                         return true;
                     case R.id.history:
                         startActivity(new Intent((getApplicationContext()), History.class));
@@ -61,5 +89,9 @@ public class Motivation extends AppCompatActivity {
         });
     }
 
-
+    private boolean checkWifiConnection(){
+        ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return wifi.isConnected();
+    }
 }

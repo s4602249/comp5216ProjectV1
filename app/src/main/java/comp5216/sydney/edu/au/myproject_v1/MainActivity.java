@@ -155,6 +155,9 @@ public class MainActivity extends AppCompatActivity {
                                         }
                                     });
                             builder.create().show();
+                        } else{
+                            startActivity(new Intent((getApplicationContext()), ShoppingDelivery.class));
+                            overridePendingTransition(0, 0);
                         }
                         return true;
                     case R.id.history:
