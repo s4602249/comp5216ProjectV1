@@ -361,6 +361,7 @@ public class MainActivity extends AppCompatActivity {
                             if(String.valueOf(m.get("acceptorName")).equals(username)
                                     && (String.valueOf(m.get("status")).equals("Posted")
                                     || String.valueOf(m.get("status")).equals("Accepted"))) {
+                                // filter the data that should be current deliver
                                 request.setTitle(String.valueOf(m.get("title")));
                                 request.setCreatorName(String.valueOf(m.get("creatorName")));
                                 request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
@@ -441,6 +442,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        // delListview setup
         dellstView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
