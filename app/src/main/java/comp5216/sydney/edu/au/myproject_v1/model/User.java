@@ -4,21 +4,41 @@ import java.io.Serializable;
 
 public class User implements Serializable {
 
-    private String username;
-    private String email;
-    private String password;
-    private String phoneNumber;
-    private String address;
-    private String cardnumber;
-    private String expiredate;
-    private String cvv;
-    private int point;
-    private double lat;
-    private double lng;
+    private String username;//user name
+    private String email;//user email
+    private String password;//user password
+    private String phoneNumber;//user phone number
+    private String address;//user address
+    private String cardnumber;//credit card number
+    private String expiredate;//credit card expire date
+    private String cvv;//credit card cvv code
+    private int point;//user point to determine user level
+    private double lat;//user location latitude
+    private double lng;//user location longitude
 
+    /**
+     Non-parameter constructor of user
+     @author Mingle Ao
+     @version 1.0
+     */
     public User() {
     }
 
+    /**
+     constructor with parameter of user
+     @author Mingle Ao
+     @version 1.0
+     @param username a string variable of username
+     @param email a string variable of email
+     @param password a string variable of password
+     @param phoneNumber a string variable of phone number
+     @param address a string variable of address
+     @param cardnumber a string variable of card number
+     @param expiredate a string variable of expire date
+     @param cvv a string variable of cvv
+     @param lat a double variable of lat
+     @param lng a double variable of lng
+     */
     public User(String username, String email, String password, String phoneNumber, String address, String cardnumber,
                 String expiredate, String cvv,double lat,double lng) {
         this.username = username;
@@ -34,6 +54,11 @@ public class User implements Serializable {
         this.lng=lng;
     }
 
+    /**
+     Setter and getter of user
+     @author Mingle Ao
+     @version 1.0
+     */
     public String getUsername() {
         return username;
     }
