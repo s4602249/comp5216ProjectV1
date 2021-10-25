@@ -80,7 +80,7 @@ public class History extends AppCompatActivity {
         class MyClickListener implements View.OnClickListener {
 
             @Override
-            public void onClick(View v) {
+            public void onClick(View v) { // tab switch listview content
                 switch(v.getId()) {
                     case R.id.requestButton:
                         delBtn.setBackgroundColor(Color.parseColor("#9e9e9e"));
@@ -98,9 +98,9 @@ public class History extends AppCompatActivity {
 
         listView = findViewById(R.id.requestHistory);
         reqBtn = findViewById(R.id.requestButton);
-        reqBtn.setBackgroundColor(Color.parseColor("#6200EE"));
+
         delBtn = findViewById(R.id.deliverButton);
-        delBtn.setBackgroundColor(Color.parseColor("#9e9e9e"));
+
         MyClickListener myClickListener = new MyClickListener();
         reqBtn.setOnClickListener(myClickListener);
         delBtn.setOnClickListener(myClickListener);
@@ -146,7 +146,7 @@ public class History extends AppCompatActivity {
                 bundle.putString("acceptorPhoneNumber", acceptorPhoneNumber);
                 bundle.putString("creatorName", creatorName);
                 bundle.putString("creatorPhoneNumber", creatorPhoneNumber);
-                intent.putExtras(bundle);
+                intent.putExtras(bundle); // pass all the info need to the detail page
                 startActivity(intent);
             }
         });
@@ -157,6 +157,10 @@ public class History extends AppCompatActivity {
 
         //Get username from session
         String sEmail = sessionManager.getUsername();
+
+        // initial the page at default request tab
+        reqBtn.setBackgroundColor(Color.parseColor("#6200EE"));
+        delBtn.setBackgroundColor(Color.parseColor("#9e9e9e"));
         getTheUsername(sEmail);
     }
 
@@ -174,13 +178,10 @@ public class History extends AppCompatActivity {
                         for (Object object : map.values()) {
                             Request request = new Request();
                             Map m = (Map) object;
-//                            Log.i("creatorName",String.valueOf(m.get("creatorName")));
-//                            Log.i("userame",username);
                             if(String.valueOf(m.get("creatorName")).equals(username)
                                     && (String.valueOf(m.get("status")).equals("Completed")
                             || String.valueOf(m.get("status")).equals("Overdue"))) {
-//                                Log.i("mylog","load?");
-//                                Log.i("nbame",String.valueOf(m.get("acceptorName")));
+                                // filter the data that should be request history
                                 request.setTitle(String.valueOf(m.get("title")));
                                 request.setCreatorName(String.valueOf(m.get("creatorName")));
                                 request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
@@ -230,10 +231,11 @@ public class History extends AppCompatActivity {
                         for (Object object : map.values()) {
                             Request request = new Request();
                             Map m = (Map) object;
-                            // Log.i("acceptorName",String.valueOf(m.get("acceptorName")));
+
                             if(String.valueOf(m.get("acceptorName")).equals(username)
                                     && (String.valueOf(m.get("status")).equals("Completed")
                                     || String.valueOf(m.get("status")).equals("Overdue"))) {
+                                // filter the data that should be deliver history
                                 request.setTitle(String.valueOf(m.get("title")));
                                 request.setCreatorName(String.valueOf(m.get("creatorName")));
                                 request.setAcceptorName(m.get("acceptorName") == null ? null : String.valueOf(m.get("acceptorName")));
@@ -281,11 +283,9 @@ public class History extends AppCompatActivity {
                     if (map != null) {
                         for (Object object : map.values()) {
                             Map m = (Map) object;
-//                            Log.i("email",String.valueOf(m.get("email")));
                             if(String.valueOf(m.get("email")).equals(email)) {
+                                // only request when current username is correct
                                 username = String.valueOf(m.get("username"));
-                                // username = "Bob";
-//                                Log.i("username",username);
                                 getRequests();
                                 break;
                             }

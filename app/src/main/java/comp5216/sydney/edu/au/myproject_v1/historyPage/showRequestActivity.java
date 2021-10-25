@@ -1,6 +1,7 @@
 package comp5216.sydney.edu.au.myproject_v1.historyPage;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -72,7 +73,7 @@ public class showRequestActivity extends AppCompatActivity {
         acceptorPhoneNumberTV = findViewById(R.id.textViewAcceptorPhoneNumber);
         acceptorPhoneNumberTV.setText(acceptorPhoneNumber);
         acceptorNameTV = findViewById(R.id.textViewAcceptorName);
-        acceptorPhoneNumberTV.setText(acceptorName);
+        acceptorNameTV.setText(acceptorName);
 
 
         ImageButton imageButton = (ImageButton) this.findViewById(R.id.back);

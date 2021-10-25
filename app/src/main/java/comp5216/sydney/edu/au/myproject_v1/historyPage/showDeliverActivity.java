@@ -70,7 +70,7 @@ public class showDeliverActivity  extends AppCompatActivity {
         creatorPhoneNumberTV = findViewById(R.id.textViewCreatorPhoneNumber);
         creatorPhoneNumberTV.setText(creatorPhoneNumber);
         creatorNameTV = findViewById(R.id.textViewAddress);
-        creatorPhoneNumberTV.setText(creatorName);
+        creatorNameTV.setText(creatorName);
 
 
         ImageButton imageButton = (ImageButton) this.findViewById(R.id.back);
