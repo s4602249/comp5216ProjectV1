@@ -4,28 +4,57 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Request implements Serializable {
-    private String title;
-    private String creatorName;
-    private String acceptorName;
-    private String address;
-    private double lat;
-    private double lng;
-    private long createTime;
-    private long dueTime;
-    private String creatorPhoneNumber;
-    private String acceptorPhoneNumber;
-    private String itemDescription1;
-    private String itemDescription2;
-    private String itemDescription3;
-    private String price1;
-    private String price2;
-    private String price3;
-    private String status;
-    private String totalPrice;
 
+    private String title;//request title
+    private String creatorName;//request creator name
+    private String acceptorName;//request acceptor name
+    private String address;//request destination address
+    private double lat;//latitude of request destination address
+    private double lng;//longitude of request destination address
+    private long createTime;//request create time
+    private long dueTime;//request due time
+    private String creatorPhoneNumber;//request creator phone number
+    private String acceptorPhoneNumber;//request acceptor phone number
+    private String itemDescription1;//item 1 name
+    private String itemDescription2;//item 2 name
+    private String itemDescription3;//item 3 name
+    private String price1;//item 1 price
+    private String price2;//item 2 price
+    private String price3;//item 3 price
+    private String status;//request status [posted, accepted, completed, overdue]
+    private String totalPrice;//request items total price
+
+    /**
+     Non-parameter constructor of request
+     @author Mingle Ao
+     @version 1.0
+     */
     public Request() {
     }
 
+    /**
+     constructor with parameter of user
+     @author Mingle Ao
+     @version 1.0
+     @param title a string variable of request name
+     @param creatorName a string variable of request creator name
+     @param acceptorName a string variable of request acceptor name
+     @param address a string variable of request destination address
+     @param lat a double variable of latitude of request destination address
+     @param lng a double variable of longitude of request destination address
+     @param createTime a string variable of request create time
+     @param dueTime a string variable of request due time
+     @param creatorPhoneNumber a string variable of request creator phone number
+     @param acceptorPhoneNumber a string variable of request acceptor phone number
+     @param itemDescription1 a string variable of item 1 name
+     @param price1 a string variable of item 1 price
+     @param itemDescription2 a string variable of item 2 name
+     @param price2 a string variable of item 2 price
+     @param itemDescription3 a string variable of item 3 name
+     @param price3 a string variable of item 3 price
+     @param status a string variable of request status
+     @param totalPrice a string variable of request items total price
+     */
     public Request(String title, String creatorName, String acceptorName, String address, double lat,
                    double lng, long createTime, long dueTime, String creatorPhoneNumber, String acceptorPhoneNumber, String itemDescription1, String itemDescription2, String itemDescription3,
                    String price1, String price2, String price3, String status, String totalPrice) {
@@ -49,6 +78,11 @@ public class Request implements Serializable {
         this.totalPrice = totalPrice;
     }
 
+    /**
+     Setter and getter of request
+     @author Mingle Ao
+     @version 1.0
+     */
     public String getTitle() {
         return title;
     }
