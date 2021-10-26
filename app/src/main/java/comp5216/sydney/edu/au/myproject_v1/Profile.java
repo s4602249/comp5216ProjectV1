@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -105,8 +106,14 @@ public class Profile extends AppCompatActivity {
             Toast.makeText(Profile.this, "You have logged out already!" , Toast.LENGTH_SHORT).show();
             finish();
         });
-
-        Read(sEmail);
+        //run code in background thread
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Read(sEmail);
+            }
+        });
+        //Read(sEmail);->comment
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.button_navigation);
         //set home selected

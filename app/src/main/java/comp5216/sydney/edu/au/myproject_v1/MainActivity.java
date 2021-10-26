@@ -7,9 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.BatteryManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,8 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,15 +38,14 @@ import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 import java.util.List;
 import java.util.Map;
 
 import comp5216.sydney.edu.au.myproject_v1.historyPage.showRequestActivity;
 import comp5216.sydney.edu.au.myproject_v1.model.DeviceToken;
 import comp5216.sydney.edu.au.myproject_v1.model.Request;
-import comp5216.sydney.edu.au.myproject_v1.profile.Motivation;
+
 import comp5216.sydney.edu.au.myproject_v1.session.SessionManager;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.CancelYourItem;
 import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.ConfirmRequestActivity;
@@ -112,7 +111,14 @@ public class MainActivity extends AppCompatActivity {
         String sEmail = sessionManager.getUsername();
         System.out.println("sessiontesting-----------------" + sEmail);
 
-        Read(sEmail);
+        //run code in background thread
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Read(sEmail);
+            }
+        });
+        // Read(sEmail);->comment
 
         /* we have session now no need anymore!
         Intent intent = getIntent();
@@ -237,8 +243,15 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //call Listview
-        setupListViewListener();
+        //setupListViewListener();->comment
 
+        //run code in background thread
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                setupListViewListener();
+            }
+        });
     }
 
     @Override
