@@ -28,16 +28,12 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import comp5216.sydney.edu.au.myproject_v1.History;
 import comp5216.sydney.edu.au.myproject_v1.MainActivity;
 import comp5216.sydney.edu.au.myproject_v1.Profile;
 import comp5216.sydney.edu.au.myproject_v1.R;
 import comp5216.sydney.edu.au.myproject_v1.ShoppingDelivery;
-import comp5216.sydney.edu.au.myproject_v1.model.Request;
-import comp5216.sydney.edu.au.myproject_v1.model.User;
 import comp5216.sydney.edu.au.myproject_v1.notificationPackage.NotificationSender;
 
 public class ConfirmRequestActivity extends AppCompatActivity {
@@ -58,10 +54,7 @@ public class ConfirmRequestActivity extends AppCompatActivity {
     TextView etAcceptorPhoneNumber;
     ImageButton ibBack;
     Button btnConfirm;
-
-    User user;
     FirebaseAuth mAuth;
-    Request request;
     DateFormat df;
     DatabaseReference db;
 
@@ -180,7 +173,6 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                 requestInfo.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        //String creator = snapshot.child("creatorName").getValue().toString();
                         String acceptor = snapshot.child("acceptorName").getValue().toString();
 
                         DatabaseReference tokenInfo = FirebaseDatabase.getInstance().getReference("TokenDevice").child(acceptor);
@@ -193,9 +185,7 @@ public class ConfirmRequestActivity extends AppCompatActivity {
                                         token,
                                         "You have completed an order!","Congradulations! You have finished "+username+"'s order! You have earned 2 points!",
                                         getApplicationContext(), ConfirmRequestActivity.this);
-                                System.out.println("hehe");
                                 notificationsSender.sendNotification();
-                                System.out.println("haha");
                             }
 
                             @Override
@@ -223,6 +213,9 @@ public class ConfirmRequestActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * display all the information
+     */
     private void ReadRequest(){
         DatabaseReference reference;
 
@@ -268,6 +261,10 @@ public class ConfirmRequestActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Check wifi connection at current activity
+     * @return
+     */
     private boolean checkWifiConnection(){
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);

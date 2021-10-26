@@ -15,6 +15,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NotificationSender {
+
+    /***************************************************************************************
+     *    Title: Send Notification From One Device to Other (open source code)
+     *    Author: Abhishek G
+     *    Date: 25/02/2021
+     *    Code version: n.d
+     *    Availability: https://drive.google.com/drive/folders/1CGLLNnmYQYoMWSCBsvKXOmUyJPsAOdvt?usp=sharing
+     *
+     ***************************************************************************************/
+
     String userToken;
     String title;
     String message;

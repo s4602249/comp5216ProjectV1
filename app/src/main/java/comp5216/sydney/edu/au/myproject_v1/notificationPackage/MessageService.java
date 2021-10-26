@@ -13,12 +13,18 @@ import android.os.Build;
 import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.RemoteMessage;
-
 import comp5216.sydney.edu.au.myproject_v1.History;
-import comp5216.sydney.edu.au.myproject_v1.MainActivity;
-import comp5216.sydney.edu.au.myproject_v1.shoppingRequest.ConfirmRequestActivity;
 
 public class MessageService extends com.google.firebase.messaging.FirebaseMessagingService {
+
+    /***************************************************************************************
+     *    Title: Send Notification From One Device to Other (open source code)
+     *    Author: Abhishek G
+     *    Date: 25/02/2021
+     *    Code version: n.d
+     *    Availability: https://drive.google.com/drive/folders/1CGLLNnmYQYoMWSCBsvKXOmUyJPsAOdvt?usp=sharing
+     *
+     ***************************************************************************************/
 
     NotificationManager notificationManager;
 

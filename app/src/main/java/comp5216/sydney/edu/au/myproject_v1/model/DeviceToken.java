@@ -10,6 +10,11 @@ public class DeviceToken implements Serializable {
     public DeviceToken(){
     }
 
+    /**
+     * Constructor with parameter of DeviceToken
+     * @param token user device token
+     * @param username user name
+     */
     public DeviceToken(String token, String username){
         this.token=token;
         this.username=username;

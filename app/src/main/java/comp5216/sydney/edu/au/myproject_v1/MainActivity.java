@@ -514,6 +514,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * check wifi connection status
+     * @return
+     */
     private boolean checkWifiConnection(){
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo wifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
