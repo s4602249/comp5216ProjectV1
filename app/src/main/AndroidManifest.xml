@@ -18,8 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.Myproject_v1">
-
+        android:theme="@style/Theme.Myproject_v1"
+        android:hardwareAccelerated="true">
         <activity
             android:name=".Profile"
             android:exported="true" />

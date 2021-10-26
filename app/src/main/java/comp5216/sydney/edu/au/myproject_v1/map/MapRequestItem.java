@@ -32,11 +32,11 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
     SupportMapFragment mapFragment;
     SearchView searchView;
     Button button;
-    FragmentContainerView gMap;
+    //FragmentContainerView gMap;
     String location;
     double lat;
     double lng;
-    private Thread thread = null;//check the thread
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,7 +44,7 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
         setContentView(R.layout.activity_map);
         searchView = findViewById(R.id.sv_location);
         button = findViewById(R.id.back);
-        gMap=findViewById(R.id.google_map);
+       // gMap=findViewById(R.id.google_map);
 
 
         Intent intent = getIntent();
@@ -102,7 +102,6 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-
     }
 
     //create a new thread to search the location
