@@ -14,6 +14,7 @@ import android.os.Vibrator;
 import androidx.core.app.NotificationCompat;
 import com.google.firebase.messaging.RemoteMessage;
 import comp5216.sydney.edu.au.myproject_v1.History;
+import comp5216.sydney.edu.au.myproject_v1.MainActivity;
 
 public class MessageService extends com.google.firebase.messaging.FirebaseMessagingService {
 
@@ -52,7 +53,7 @@ public class MessageService extends com.google.firebase.messaging.FirebaseMessag
             builder.setSmallIcon(iconImage);
         }
 
-        Intent notificationIntent = new Intent(this, History.class);
+        Intent notificationIntent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         builder.setContentTitle(remoteMessage.getNotification().getTitle());
         builder.setContentText(remoteMessage.getNotification().getBody());
