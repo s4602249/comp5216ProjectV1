@@ -76,41 +76,65 @@ public class MapEdit extends FragmentActivity implements OnMapReadyCallback {
         });
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.google_map);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                location = searchView.getQuery().toString();
-                List<Address> addressList = null;
-                if (location != null || !location.equals("")) {
-                    Geocoder geocoder = new Geocoder(MapEdit.this);
-                    try {
-                        addressList = geocoder.getFromLocationName(location, 1);
-                        Address address = addressList.get(0);
-                        LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
-                        map.addMarker(new MarkerOptions().position(latLng).title(location));
-                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                        lat=address.getLatitude();
-                        lng=address.getLongitude();
-                    } catch (IndexOutOfBoundsException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                return false;
-            }
-        });
+        Thread name = new Thread(MapSearch);
+        name.start();
         mapFragment.getMapAsync(this);
     }
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-
     }
+
+
+    /**
+     * create a new thread for searching the location
+     */
+    public Runnable MapSearch = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            while (true)
+            {
+                try
+                {
+                    Thread.sleep(1000);// sleeps 1 second
+                    //Do Your process here.
+                    searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                            location = searchView.getQuery().toString();
+                            List<Address> addressList = null;
+                            if (location != null || !location.equals("")) {
+                                Geocoder geocoder = new Geocoder(MapEdit.this);
+                                try {
+                                    addressList = geocoder.getFromLocationName(location, 1);
+                                    Address address = addressList.get(0);
+                                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                                    map.addMarker(new MarkerOptions().position(latLng).title(location));
+                                    map.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                                    lat=address.getLatitude();
+                                    lng=address.getLongitude();
+                                } catch (IndexOutOfBoundsException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String s) {
+                            return false;
+                        }
+                    });
+                } catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+
+        }
+    };
 }

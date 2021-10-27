@@ -104,7 +104,10 @@ public class MapRequestItem extends FragmentActivity implements OnMapReadyCallba
         map = googleMap;
     }
 
-    //create a new thread to search the location
+
+    /**
+     * create a new thread for searching the location
+     */
     public Runnable MapSearch = new Runnable()
     {
         @Override
